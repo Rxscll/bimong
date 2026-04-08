@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard') - Admin Perpus</title>
+    <title>@yield('title', 'Dashboard') - PerpusSiswa</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -16,13 +16,14 @@
     <style>
         :root {
             --sidebar-width: 260px;
-            --primary-color: #4361ee;
+            --primary-color: #F75D34;
+            --secondary-color: #FF8C42;
             --bg-light: #f8f9fa;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f4f7fe;
+            background-color: #f8f9fa;
         }
 
         #wrapper {
@@ -155,7 +156,7 @@
                 <div class="logo-icon">
                     <i class="bi bi-book-half"></i>
                 </div>
-                <h5 class="mb-0 fw-bold text-dark">DedenPerpus</h5>
+                <h5 class="mb-0 fw-bold text-dark">PerpusSiswa</h5>
             </div>
             <div class="list-group list-group-flush">
                 <a href="{{ route('admin.dashboard') }}"

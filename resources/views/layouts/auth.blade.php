@@ -12,6 +12,8 @@
         rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Vite Assets -->
+    @vite(['resources/css/app.css'])
 
     <style>
         body {
@@ -46,8 +48,8 @@
         }
 
         .btn-primary {
-            background-color: #4361ee;
-            border-color: #4361ee;
+            background-color: #F75D34;
+            border-color: #F75D34;
             border-radius: 12px;
             padding: 0.75rem;
             font-weight: 600;
@@ -60,8 +62,8 @@
         }
 
         .form-control:focus {
-            border-color: #4361ee;
-            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.1);
+            border-color: #F75D34;
+            box-shadow: 0 0 0 0.25rem rgba(247, 93, 52, 0.1);
         }
     </style>
 </head>
@@ -76,6 +78,8 @@
 
     <!-- Bootstrap 5 Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Vite Assets -->
+    @vite(['resources/js/app.js'])
 </body>
 
 </html>

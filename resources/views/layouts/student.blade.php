@@ -15,8 +15,8 @@
 
     <style>
         :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3f37c9;
+            --primary-color: #F75D34;
+            --secondary-color: #FF8C42;
         }
 
         body {
@@ -55,7 +55,7 @@
         }
 
         .hero-section {
-            background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+            background: linear-gradient(135deg, #F75D34 0%, #FF8C42 100%);
             padding: 60px 0;
             color: white;
             margin-bottom: 40px;

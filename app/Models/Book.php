@@ -21,6 +21,13 @@ class Book extends Model
         'category_id',
     ];
 
+    public static function generateKodeBuku()
+    {
+        $latestBook = self::latest()->first();
+        $nextNumber = $latestBook ? intval(substr($latestBook->kode_buku, -4)) + 1 : 1;
+        return 'BK-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

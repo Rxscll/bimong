@@ -88,7 +88,7 @@
                         <tr>
                             <td colspan="6" class="text-center py-5">
                                 <i class="bi bi-journal-x fs-1 text-muted d-block mb-2"></i>
-                                <span class="text-muted">Tidak ada buku pengadilan</span>
+                                <span class="text-muted">Perpustakaan Sedang Kosong</span>
                             </td>
                         </tr>
                     @endforelse

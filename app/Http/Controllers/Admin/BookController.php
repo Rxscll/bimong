@@ -18,13 +18,14 @@ class BookController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.books.create', compact('categories'));
+        $kodeBuku = Book::generateKodeBuku();
+        
+        return view('admin.books.create', compact('categories', 'kodeBuku'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'kode_buku' => 'required|string|unique:books',
             'judul' => 'required|string|max:255',
             'penulis' => 'required|string|max:255',
             'penerbit' => 'required|string|max:255',
@@ -33,10 +34,16 @@ class BookController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        Book::create($request->all());
+        // Generate automatic book code
+        $kodeBuku = Book::generateKodeBuku();
+
+        $bookData = $request->all();
+        $bookData['kode_buku'] = $kodeBuku;
+
+        Book::create($bookData);
 
         return redirect()->route('admin.books.index')
-            ->with('success', 'Buku berhasil ditambahkan.');
+            ->with('success', 'Buku berhasil ditambahkan dengan kode: ' . $kodeBuku);
     }
 
     public function show(string $id)

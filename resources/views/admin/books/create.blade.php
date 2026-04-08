@@ -23,11 +23,10 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label class="form-label fw-bold small text-muted text-uppercase">Kode Buku</label>
-                                <input type="text" class="form-control rounded-3 @error('kode_buku') is-invalid @enderror"
-                                    name="kode_buku" value="{{ old('kode_buku') }}" placeholder="Contoh: BJK-001" required>
-                                @error('kode_buku')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                                <input type="text" class="form-control rounded-3 bg-light"
+                                    value="{{ $kodeBuku ?? 'BK-0001' }}" readonly>
+                                <input type="hidden" name="kode_buku" value="{{ $kodeBuku ?? 'BK-0001' }}">
+                                <div class="form-text">Kode buku dibuat otomatis</div>
                             </div>
                         </div>
                         <div class="col-md-8">

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
-use App\Models\Borrowing;
 use App\Models\Category;
+use App\Models\ReadingHistory;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -16,7 +16,7 @@ class BookController extends Controller
         $category_id = $request->input('category_id');
 
         $books = Book::with('category')
-            ->where('stok', '>', 0)
+            ->whereNotNull('file_pdf') // Only show books with PDF
             ->when($search, function ($query, $search) {
                 return $query->where(function ($q) use ($search) {
                     $q->where('judul', 'like', "%{$search}%")
@@ -27,6 +27,7 @@ class BookController extends Controller
             ->when($category_id, function ($query, $category_id) {
                 return $query->where('category_id', $category_id);
             })
+            ->latest()
             ->paginate(12);
 
         $categories = Category::all();
@@ -40,35 +41,29 @@ class BookController extends Controller
         return view('student.books.show', compact('book'));
     }
 
-    public function borrow($id)
+    public function read($id)
     {
         $book = Book::findOrFail($id);
-
-        if ($book->stok < 1) {
-            return redirect()->back()->with('error', 'Stok buku habis.');
+        
+        if (!$book->file_pdf) {
+            return redirect()->back()->with('error', 'File PDF tidak tersedia untuk buku ini.');
         }
 
-        $userId = auth()->id();
+        // Increment read count
+        $book->incrementReadCount();
 
-        $existingBorrowing = Borrowing::where('user_id', $userId)
-            ->where('book_id', $id)
-            ->whereIn('status', ['pending', 'dipinjam'])
-            ->first();
+        // Save reading history
+        ReadingHistory::updateOrCreate(
+            [
+                'user_id' => auth()->id(),
+                'book_id' => $book->id,
+            ],
+            [
+                'last_page' => 1,
+                'updated_at' => now(),
+            ]
+        );
 
-        if ($existingBorrowing) {
-            return redirect()->back()->with('error', 'Anda sudah meminjam atau sedang meminta peminjaman untuk buku ini.');
-        }
-
-        Borrowing::create([
-            'user_id' => $userId,
-            'book_id' => $id,
-            'tanggal_pinjam' => now()->toDateString(),
-            'tanggal_kembali_rencana' => now()->addDays(7)->toDateString(),
-            'status' => 'pending',
-            'denda' => 0,
-        ]);
-
-        return redirect()->route('student.books.index')
-            ->with('success', 'Permintaan peminjaman buku berhasil dikirim. Silakan tunggu persetujuan admin.');
+        return view('student.books.read', compact('book'));
     }
 }

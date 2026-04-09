@@ -1,133 +1,173 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Buku')
+@section('title', 'Tambah Buku Digital')
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="card p-4">
-                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-                    <div>
-                        <h4 class="fw-bold mb-1">Tambah Buku Baru</h4>
-                        <p class="text-muted small mb-0">Lengkapi data buku di bawah ini</p>
+<div class="container-fluid p-6">
+    <div class="max-w-2xl mx-auto">
+        <!-- Header -->
+        <div class="mb-6">
+            <h1 class="text-2xl font-bold text-gray-900">Tambah Buku Digital</h1>
+            <p class="text-gray-600 mt-1">Upload buku digital baru ke perpustakaan</p>
+        </div>
+
+        <!-- Form -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <form action="{{ route('admin.books.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Left Column -->
+                    <div class="space-y-6">
+                        <!-- Judul -->
+                        <div>
+                            <label for="judul" class="block text-sm font-medium text-gray-700 mb-2">
+                                Judul Buku <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="judul" name="judul" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   value="{{ old('judul') }}">
+                            @error('judul')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Penulis -->
+                        <div>
+                            <label for="penulis" class="block text-sm font-medium text-gray-700 mb-2">
+                                Penulis <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="penulis" name="penulis" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   value="{{ old('penulis') }}">
+                            @error('penulis')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Penerbit -->
+                        <div>
+                            <label for="penerbit" class="block text-sm font-medium text-gray-700 mb-2">
+                                Penerbit <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="penerbit" name="penerbit" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   value="{{ old('penerbit') }}">
+                            @error('penerbit')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Tahun Terbit -->
+                        <div>
+                            <label for="tahun_terbit" class="block text-sm font-medium text-gray-700 mb-2">
+                                Tahun Terbit <span class="text-red-500">*</span>
+                            </label>
+                            <input type="number" id="tahun_terbit" name="tahun_terbit" required
+                                   min="1900" max="{{ date('Y') }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   value="{{ old('tahun_terbit') }}">
+                            @error('tahun_terbit')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Kategori -->
+                        <div>
+                            <label for="category_id" class="block text-sm font-medium text-gray-700 mb-2">
+                                Kategori <span class="text-red-500">*</span>
+                            </label>
+                            <select id="category_id" name="category_id" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">Pilih Kategori</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
-                    <a href="{{ route('admin.books.index') }}"
-                        class="btn btn-light btn-sm d-flex align-items-center border">
-                        <i class="bi bi-arrow-left me-2"></i> Kembali
-                    </a>
+
+                    <!-- Right Column -->
+                    <div class="space-y-6">
+                        <!-- Deskripsi -->
+                        <div>
+                            <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-2">
+                                Deskripsi
+                            </label>
+                            <textarea id="deskripsi" name="deskripsi" rows="4"
+                                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('deskripsi') }}</textarea>
+                            @error('deskripsi')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Cover -->
+                        <div>
+                            <label for="cover" class="block text-sm font-medium text-gray-700 mb-2">
+                                Cover Buku
+                            </label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors">
+                                <div class="space-y-1 text-center">
+                                    <i class="bi bi-image mx-auto text-3xl text-gray-400"></i>
+                                    <div class="flex text-sm text-gray-600">
+                                        <label for="cover" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                            <span>Upload file</span>
+                                            <input id="cover" name="cover" type="file" class="sr-only" accept="image/*">
+                                        </label>
+                                        <p class="pl-1">atau drag and drop</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500">PNG, JPG, GIF hingga 2MB</p>
+                                </div>
+                            </div>
+                            @error('cover')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- PDF File -->
+                        <div>
+                            <label for="file_pdf" class="block text-sm font-medium text-gray-700 mb-2">
+                                File PDF <span class="text-red-500">*</span>
+                            </label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 transition-colors">
+                                <div class="space-y-1 text-center">
+                                    <i class="bi bi-file-pdf mx-auto text-3xl text-gray-400"></i>
+                                    <div class="flex text-sm text-gray-600">
+                                        <label for="file_pdf" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                            <span>Upload file</span>
+                                            <input id="file_pdf" name="file_pdf" type="file" class="sr-only" accept=".pdf" required>
+                                        </label>
+                                        <p class="pl-1">atau drag and drop</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500">PDF hingga 10MB</p>
+                                </div>
+                            </div>
+                            @error('file_pdf')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
 
-                <form action="{{ route('admin.books.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row g-4">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Kode Buku</label>
-                                <input type="text" class="form-control rounded-3 bg-light"
-                                    value="{{ $kodeBuku ?? 'BK-0001' }}" readonly>
-                                <input type="hidden" name="kode_buku" value="{{ $kodeBuku ?? 'BK-0001' }}">
-                                <div class="form-text">Kode buku dibuat otomatis</div>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Judul Buku</label>
-                                <input type="text" class="form-control rounded-3 @error('judul') is-invalid @enderror"
-                                    name="judul" value="{{ old('judul') }}" placeholder="Masukkan judul lengkap" required>
-                                @error('judul')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Penulis</label>
-                                <input type="text" class="form-control rounded-3 @error('penulis') is-invalid @enderror"
-                                    name="penulis" value="{{ old('penulis') }}" placeholder="Nama penulis" required>
-                                @error('penulis')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Penerbit</label>
-                                <input type="text" class="form-control rounded-3 @error('penerbit') is-invalid @enderror"
-                                    name="penerbit" value="{{ old('penerbit') }}" placeholder="Nama penerbit" required>
-                                @error('penerbit')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Tahun Terbit</label>
-                                <input type="number"
-                                    class="form-control rounded-3 @error('tahun_terbit') is-invalid @enderror"
-                                    name="tahun_terbit" value="{{ old('tahun_terbit') }}" placeholder="YYYY" required>
-                                @error('tahun_terbit')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Stok Buku</label>
-                                <input type="number" class="form-control rounded-3 @error('stok') is-invalid @enderror"
-                                    name="stok" value="{{ old('stok') }}" min="0" required>
-                                @error('stok')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Kategori</label>
-                                <select class="form-select rounded-3 @error('category_id') is-invalid @enderror"
-                                    name="category_id" required>
-                                    <option value="">Pilih Kategori</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('category_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Sampul Buku</label>
-                                <input type="file" class="form-control rounded-3 @error('image') is-invalid @enderror"
-                                    name="image" accept="image/*">
-                                <div class="form-text">Format: JPG, PNG, WEBP. Maks 2MB.</div>
-                                @error('image')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Deskripsi /
-                                    Sinopsis</label>
-                                <textarea class="form-control rounded-3" name="deskripsi" rows="4"
-                                    placeholder="Tuliskan deskripsi singkat buku...">{{ old('deskripsi') }}</textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 pt-3 border-top">
-                        <button type="submit" class="btn btn-primary px-5 py-2">
-                            <i class="bi bi-save me-2"></i> Simpan Buku
-                        </button>
-                        <button type="reset" class="btn btn-light px-4 py-2 ms-2 border">Reset</button>
-                    </div>
-                </form>
-            </div>
+                <!-- Buttons -->
+                <div class="mt-8 flex justify-end space-x-4">
+                    <a href="{{ route('admin.books.index') }}" 
+                       class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Batal
+                    </a>
+                    <button type="submit" 
+                            class="px-4 py-2 border border-transparent rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <i class="bi bi-save mr-2"></i>
+                        Simpan Buku
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 @endsection

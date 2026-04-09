@@ -1,53 +1,103 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard') - PerpusSiswa</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>@yield('title', 'Dashboard') - Perpus Digital</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
-    <style>
-        :root {
-            --sidebar-width: 260px;
-            --primary-color: #F75D34;
-            --secondary-color: #FF8C42;
-            --bg-light: #f8f9fa;
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        secondary: '#38BDF8',
+                        background: '#F8FAFC',
+                    }
+                }
+            }
         }
+    </script>
+</head>
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f8f9fa;
-        }
+<body class="bg-gray-50 font-sans antialiased">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg">
+            <div class="flex items-center justify-center h-16 bg-blue-600 text-white">
+                <i class="bi bi-book-half text-2xl mr-2"></i>
+                <span class="font-bold text-lg">Perpus Digital</span>
+            </div>
+            
+            <nav class="mt-5 px-4">
+                <div class="space-y-2">
+                    <a href="{{ route('admin.dashboard') }}" 
+                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('admin/dashboard') ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
+                        <i class="bi bi-speedometer2 mr-3"></i>
+                        Dashboard
+                    </a>
+                    <a href="{{ route('admin.books.index') }}" 
+                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('admin/books*') ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
+                        <i class="bi bi-book mr-3"></i>
+                        Buku
+                    </a>
+                    <a href="{{ route('admin.categories.index') }}" 
+                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('admin/categories*') ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
+                        <i class="bi bi-tags mr-3"></i>
+                        Kategori
+                    </a>
+                    <a href="{{ route('admin.students.index') }}" 
+                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('admin/students*') ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
+                        <i class="bi bi-people mr-3"></i>
+                        Siswa
+                    </a>
+                    <a href="{{ route('admin.reading-history.index') }}" 
+                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('admin/reading-history*') ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
+                        <i class="bi bi-clock-history mr-3"></i>
+                        Riwayat Baca
+                    </a>
+                </div>
+            </nav>
+        </div>
 
-        #wrapper {
-            display: flex;
-            width: 100%;
-        }
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <h1 class="text-xl font-semibold text-gray-900">@yield('title')</h1>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-600">
+                            <i class="bi bi-person-circle mr-1"></i>
+                            {{ auth()->user()->name }}
+                        </span>
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" 
+                                    class="text-sm text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <i class="bi bi-box-arrow-right"></i>
+                                Keluar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </header>
 
-        #sidebar-wrapper {
-            width: var(--sidebar-width);
-            min-height: 100vh;
-            background: #fff;
-            transition: all 0.3s;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-            position: fixed;
-            z-index: 1000;
-        }
-
-        #sidebar-wrapper .sidebar-heading {
-            padding: 1.5rem 1.25rem;
-            display: flex;
-            align-items: center;
-        }
-
-        #sidebar-wrapper .sidebar-heading .logo-icon {
+            <!-- Page Content -->
+            <main class="flex-1 overflow-y-auto bg-gray-50">
+                @yield('content')
+            </main>
+        </div>
+    </div>
+</body>
+</html>
             width: 32px;
             height: 32px;
             background: var(--primary-color);
@@ -175,9 +225,9 @@
                     class="list-group-item {{ request()->routeIs('admin.students.*') ? 'active' : '' }}">
                     <i class="bi bi-people-fill"></i> Siswa
                 </a>
-                <a href="{{ route('admin.borrowings.index') }}"
-                    class="list-group-item {{ request()->routeIs('admin.borrowings.*') ? 'active' : '' }}">
-                    <i class="bi bi-arrow-left-right"></i> Peminjaman
+                <a href="{{ route('admin.reading-history.index') }}"
+                    class="list-group-item {{ request()->routeIs('admin.reading-history.*') ? 'active' : '' }}">
+                    <i class="bi bi-clock-history"></i> Riwayat Baca
                 </a>
             </div>
         </div>

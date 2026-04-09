@@ -2,14 +2,15 @@
 
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\BookController;
-use App\Http\Controllers\Admin\StudentController;
-use App\Http\Controllers\Admin\BorrowingController as AdminBorrowingController;
-use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
+use App\Http\Controllers\Admin\AdminBookController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ReadingHistoryController;
 use App\Http\Controllers\Student\BookController as StudentBookController;
-use App\Http\Controllers\Student\BorrowingController as StudentBorrowingController;
+use App\Http\Controllers\Student\StudentDashboardController;
+use App\Http\Controllers\Student\FavoriteController;
+use App\Http\Controllers\Student\ReadingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
@@ -26,14 +27,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('categories', CategoryController::class);
 
-    Route::resource('books', BookController::class);
+    Route::resource('books', AdminBookController::class);
+    
+    Route::resource('students', AdminController::class);
 
-    Route::resource('students', StudentController::class);
-
-    Route::get('/borrowings', [AdminBorrowingController::class, 'index'])->name('borrowings.index');
-    Route::post('/borrowings/{id}/approve', [AdminBorrowingController::class, 'approve'])->name('borrowings.approve');
-    Route::post('/borrowings/{id}/return', [AdminBorrowingController::class, 'return'])->name('borrowings.return');
-    Route::get('/borrowings/{id}', [AdminBorrowingController::class, 'show'])->name('borrowings.show');
+    Route::get('/reading-history', [ReadingHistoryController::class, 'index'])->name('reading-history.index');
 });
 
 Route::middleware(['auth', 'siswa'])->prefix('student')->name('student.')->group(function () {
@@ -41,11 +39,12 @@ Route::middleware(['auth', 'siswa'])->prefix('student')->name('student.')->group
 
     Route::get('/books', [StudentBookController::class, 'index'])->name('books.index');
     Route::get('/books/{id}', [StudentBookController::class, 'show'])->name('books.show');
-    Route::post('/books/{id}/borrow', [StudentBookController::class, 'borrow'])->name('books.borrow');
+    Route::get('/books/read/{id}', [StudentBookController::class, 'read'])->name('books.read');
 
-    Route::get('/my-borrowings', [StudentBorrowingController::class, 'index'])->name('borrowings.index');
-    Route::get('/my-borrowings/history', [StudentBorrowingController::class, 'history'])->name('borrowings.history');
-    Route::get('/my-borrowings/{id}', [StudentBorrowingController::class, 'show'])->name('borrowings.show');
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/favorites/{bookId}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+
+    Route::get('/reading-history', [ReadingController::class, 'index'])->name('reading-history.index');
 });
 
 Route::middleware('auth')->group(function () {

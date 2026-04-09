@@ -1,119 +1,137 @@
 @extends('layouts.admin')
 
-@section('title', 'Dasbor')
+@section('title', 'Dashboard Admin')
 
 @section('content')
-    <div class="row g-4 mb-4">
-        <div class="col-12 col-sm-6 col-xl-3">
-            <div class="card stat-card p-3">
-                <div class="d-flex align-items-center">
-                    <div class="icon-box bg-primary bg-opacity-10 text-primary me-3">
-                        <i class="bi bi-book"></i>
-                    </div>
-                    <div>
-                        <p class="text-muted small mb-1">Total Buku</p>
-                        <h4 class="mb-0 fw-bold">{{ $totalBooks }}</h4>
-                    </div>
+<div class="container-fluid p-6">
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Total Books -->
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Total Buku</p>
+                    <p class="text-2xl font-bold text-gray-900">{{ $totalBooks }}</p>
+                </div>
+                <div class="bg-blue-100 rounded-full p-3">
+                    <i class="bi bi-book text-blue-600 text-xl"></i>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-xl-3">
-            <div class="card stat-card p-3">
-                <div class="d-flex align-items-center">
-                    <div class="icon-box bg-success bg-opacity-10 text-success me-3">
-                        <i class="bi bi-people"></i>
-                    </div>
-                    <div>
-                        <p class="text-muted small mb-1">Total Siswa</p>
-                        <h4 class="mb-0 fw-bold">{{ $totalStudents }}</h4>
-                    </div>
+
+        <!-- Total Users -->
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Total Siswa</p>
+                    <p class="text-2xl font-bold text-gray-900">{{ $totalUsers }}</p>
+                </div>
+                <div class="bg-green-100 rounded-full p-3">
+                    <i class="bi bi-people text-green-600 text-xl"></i>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-xl-3">
-            <div class="card stat-card p-3">
-                <div class="d-flex align-items-center">
-                    <div class="icon-box bg-info bg-opacity-10 text-info me-3">
-                        <i class="bi bi-arrow-left-right"></i>
-                    </div>
-                    <div>
-                        <p class="text-muted small mb-1">Buku Dipinjam</p>
-                        <h4 class="mb-0 fw-bold">{{ $booksBorrowed }}</h4>
-                    </div>
+
+        <!-- Reading Sessions -->
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Sesi Membaca</p>
+                    <p class="text-2xl font-bold text-gray-900">{{ $totalReadingSessions }}</p>
+                </div>
+                <div class="bg-purple-100 rounded-full p-3">
+                    <i class="bi bi-eye text-purple-600 text-xl"></i>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-xl-3">
-            <div class="card stat-card p-3 bg-danger bg-opacity-10">
-                <div class="d-flex align-items-center">
-                    <div class="icon-box bg-danger bg-opacity-10 text-danger me-3">
-                        <i class="bi bi-clock-history"></i>
-                    </div>
-                    <div>
-                        <p class="text-danger small mb-1">Butuh Disetujui</p>
-                        <h4 class="mb-0 fw-bold text-danger">{{ $pendingBorrowings }}</h4>
-                    </div>
+
+        <!-- Categories -->
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-orange-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Kategori</p>
+                    <p class="text-2xl font-bold text-gray-900">{{ \App\Models\Category::count() }}</p>
+                </div>
+                <div class="bg-orange-100 rounded-full p-3">
+                    <i class="bi bi-tags text-orange-600 text-xl"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row g-4">
-        <div class="col-12 col-lg-8">
-            <div class="card p-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h5 class="fw-bold mb-0">Aksi Cepat</h5>
-                </div>
-                <div class="row g-3">
-                    <div class="col-6 col-md-3">
-                        <a href="{{ route('admin.books.create') }}"
-                            class="btn btn-outline-primary w-100 py-3 d-flex flex-column align-items-center">
-                            <i class="bi bi-plus-circle fs-3 mb-2"></i>
-                            <span class="small fw-semibold">Buku Baru</span>
-                        </a>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Popular Books -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i class="bi bi-fire text-orange-500 mr-2"></i>
+                Buku Populer
+            </h3>
+            <div class="space-y-3">
+                @forelse($popularBooks as $book)
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">{{ Str::limit($book->judul, 30) }}</h4>
+                            <p class="text-sm text-gray-600">{{ $book->penulis }}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-sm font-semibold text-blue-600">{{ $book->jumlah_dibaca }} dibaca</span>
+                        </div>
                     </div>
-                    <div class="col-6 col-md-3">
-                        <a href="{{ route('admin.categories.create') }}"
-                            class="btn btn-outline-primary w-100 py-3 d-flex flex-column align-items-center">
-                            <i class="bi bi-tag fs-3 mb-2"></i>
-                            <span class="small fw-semibold">Kategori</span>
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <a href="{{ route('admin.students.create') }}"
-                            class="btn btn-outline-primary w-100 py-3 d-flex flex-column align-items-center">
-                            <i class="bi bi-person-plus fs-3 mb-2"></i>
-                            <span class="small fw-semibold">Siswa Baru</span>
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <a href="{{ route('admin.borrowings.index') }}"
-                            class="btn btn-outline-primary w-100 py-3 d-flex flex-column align-items-center">
-                            <i class="bi bi-card-list fs-3 mb-2"></i>
-                            <span class="small fw-semibold">Pinjaman</span>
-                        </a>
-                    </div>
-                </div>
+                @empty
+                    <p class="text-gray-500 text-center py-4">Belum ada buku yang dibaca</p>
+                @endforelse
             </div>
         </div>
-        <div class="col-12 col-lg-4">
-            <div class="card p-4 h-100">
-                <h5 class="fw-bold mb-4">Informasi Sistem</h5>
-                <div class="d-flex flex-column gap-3">
-                    <div class="p-3 bg-light rounded-3 d-flex justify-content-between align-items-center">
-                        <span class="small text-muted">Status</span>
-                        <span class="badge bg-success-subtle text-success">Online</span>
+
+        <!-- Recent Books -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <i class="bi bi-clock-history text-blue-500 mr-2"></i>
+                Buku Terbaru
+            </h3>
+            <div class="space-y-3">
+                @forelse($recentBooks as $book)
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">{{ Str::limit($book->judul, 30) }}</h4>
+                            <p class="text-sm text-gray-600">{{ $book->penulis }}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs text-gray-500">{{ $book->created_at->format('d M Y') }}</span>
+                        </div>
                     </div>
-                    <div class="p-3 bg-light rounded-3 d-flex justify-content-between align-items-center">
-                        <span class="small text-muted">Buku Terlambat</span>
-                        <span class="fw-bold text-danger">{{ $lateReturns }}</span>
-                    </div>
-                    <div class="p-3 bg-light rounded-3 d-flex justify-content-between align-items-center">
-                        <span class="small text-muted">Versi</span>
-                        <span class="fw-bold text-dark">v1.2.0</span>
-                    </div>
-                </div>
+                @empty
+                    <p class="text-gray-500 text-center py-4">Belum ada buku</p>
+                @endforelse
             </div>
         </div>
     </div>
+
+    <!-- Quick Actions -->
+    <div class="mt-8 bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Aksi Cepat</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <a href="{{ route('admin.books.create') }}" 
+               class="flex items-center p-4 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors">
+                <i class="bi bi-plus-circle mr-3 text-xl"></i>
+                <span class="font-medium">Tambah Buku</span>
+            </a>
+            <a href="{{ route('admin.categories.create') }}" 
+               class="flex items-center p-4 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors">
+                <i class="bi bi-tag mr-3 text-xl"></i>
+                <span class="font-medium">Kategori Baru</span>
+            </a>
+            <a href="{{ route('admin.reading-history.index') }}" 
+               class="flex items-center p-4 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors">
+                <i class="bi bi-clock-history mr-3 text-xl"></i>
+                <span class="font-medium">Riwayat Membaca</span>
+            </a>
+            <a href="{{ route('admin.students.create') }}" 
+               class="flex items-center p-4 bg-orange-50 text-orange-700 rounded-lg hover:bg-orange-100 transition-colors">
+                <i class="bi bi-person-plus mr-3 text-xl"></i>
+                <span class="font-medium">Siswa Baru</span>
+            </a>
+        </div>
+    </div>
+</div>
 @endsection

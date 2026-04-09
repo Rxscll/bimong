@@ -3,51 +3,145 @@
 @section('title', 'Katalog Buku')
 
 @section('content')
-<div class="hero-section">
-    <div class="container overflow-hidden">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-3">Temukan Pengetahuan di Genggaman Anda</h1>
-                <p class="lead mb-4 opacity-75">Cari dan pinjam buku favoritmu dengan mudah dari koleksi perpustakaan sekolah kami.</p>
-                <form action="{{ route('student.books.index') }}" method="GET" class="d-flex gap-2">
-                    <div class="input-group input-group-lg shadow-sm">
-                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
-                        <input type="text" name="search" value="{{ $search }}" class="form-control border-start-0 ps-0" placeholder="Cari judul, penulis, atau kode buku...">
-                        <button class="btn btn-warning px-4 fw-bold" type="submit">Cari</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-lg-6 d-none d-lg-block">
-                <img src="https://illustrations.popsy.co/white/reading-a-book.svg" alt="Ilustrasi Baca" class="img-fluid" style="max-height: 400px; filter: drop-shadow(0 0 20px rgba(0,0,0,0.1));">
-            </div>
+<div class="container-fluid p-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Katalog Buku Digital</h1>
+            <p class="text-gray-600 mt-1">Jelajahi koleksi buku digital perpustakaan</p>
         </div>
     </div>
-</div>
 
-<div class="container mb-5">
-    <!-- Filter Kategori -->
-    <div class="d-flex flex-wrap gap-2 mb-5">
-        <a href="{{ route('student.books.index') }}" class="btn {{ !$category_id ? 'btn-primary' : 'btn-light' }} rounded-pill px-4">Semua</a>
-        @foreach($categories as $category)
-            <a href="{{ route('student.books.index', ['category_id' => $category->id, 'search' => $search]) }}" 
-               class="btn {{ $category_id == $category->id ? 'btn-primary' : 'btn-light' }} rounded-pill px-4">
-                {{ $category->name }}
-            </a>
-        @endforeach
+    <!-- Search and Filter -->
+    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+        <form method="GET" class="flex flex-col md:flex-row gap-4">
+            <div class="flex-1">
+                <input type="text" name="search" value="{{ $search }}" 
+                       placeholder="Cari judul atau penulis..." 
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            <div class="md:w-48">
+                <select name="category_id" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <option value="">Semua Kategori</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ $category_id == $category->id ? 'selected' : '' }}>
+                            {{ $category->nama }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <button type="submit" 
+                    class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                <i class="bi bi-search"></i>
+                Cari
+            </button>
+        </form>
     </div>
 
-    <!-- Alert Sukses/Error -->
-    @if(session('success'))
-        <div class="alert alert-success border-0 shadow-sm alert-dismissible fade show mb-4" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i>
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <!-- Books Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        @forelse($books as $book)
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <!-- Cover Image -->
+                <div class="relative h-48 bg-gray-100">
+                    <img src="{{ $book->cover_url }}" alt="{{ $book->judul }}" 
+                         class="w-full h-full object-cover">
+                    @if($book->file_pdf)
+                        <div class="absolute top-2 right-2">
+                            <span class="px-2 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full">
+                                <i class="bi bi-file-pdf mr-1"></i>PDF
+                            </span>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Book Info -->
+                <div class="p-4">
+                    <div class="mb-2">
+                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
+                            {{ $book->category->nama }}
+                        </span>
+                    </div>
+                    
+                    <h3 class="font-semibold text-gray-900 mb-1 line-clamp-2">{{ $book->judul }}</h3>
+                    <p class="text-sm text-gray-600 mb-1">{{ $book->penulis }}</p>
+                    <p class="text-xs text-gray-500 mb-3">{{ $book->tahun_terbit }}</p>
+                    
+                    <!-- Description -->
+                    @if($book->deskripsi)
+                        <p class="text-sm text-gray-700 mb-4 line-clamp-3">{{ $book->deskripsi }}</p>
+                    @endif
+
+                    <!-- Stats -->
+                    <div class="flex items-center justify-between text-sm text-gray-600 mb-4">
+                        <span class="flex items-center">
+                            <i class="bi bi-eye mr-1"></i>
+                            {{ $book->jumlah_dibaca }} dibaca
+                        </span>
+                        <span class="flex items-center">
+                            <i class="bi bi-book mr-1"></i>
+                            {{ $book->kode_buku }}
+                        </span>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-2">
+                        <a href="{{ route('student.books.show', $book->id) }}" 
+                           class="flex-1 text-center px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium">
+                            <i class="bi bi-eye mr-1"></i>
+                            Detail
+                        </a>
+                        
+                        @if($book->file_pdf)
+                            <a href="{{ route('student.books.read', $book->id) }}" 
+                               class="flex-1 text-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
+                                <i class="bi bi-book mr-1"></i>
+                                Baca
+                            </a>
+                        @else
+                            <button disabled 
+                                    class="flex-1 text-center px-3 py-2 bg-gray-300 text-gray-500 rounded-lg text-sm font-medium cursor-not-allowed">
+                                <i class="bi bi-x-circle mr-1"></i>
+                                Tidak Ada
+                            </button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="col-span-full text-center py-12">
+                <i class="bi bi-inbox text-6xl text-gray-300 mb-4 block"></i>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Tidak ada buku ditemukan</h3>
+                <p class="text-gray-600">Coba ubah kata kunci pencarian atau filter kategori</p>
+            </div>
+        @endforelse
+    </div>
+
+    <!-- Pagination -->
+    @if($books->hasPages())
+        <div class="mt-8 flex justify-center">
+            {{ $books->links() }}
         </div>
     @endif
+</div>
 
-    @if(session('error'))
-        <div class="alert alert-danger border-0 shadow-sm alert-dismissible fade show mb-4" role="alert">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+<style>
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+@endsection
             {{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>

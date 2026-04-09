@@ -6,7 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Borrowing;
+use App\Models\Favorite;
+use App\Models\ReadingHistory;
 
 class User extends Authenticatable
 {
@@ -50,9 +51,14 @@ class User extends Authenticatable
         ];
     }
 
-    public function borrowings()
+    public function favorites()
     {
-        return $this->hasMany(Borrowing::class);
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function readingHistories()
+    {
+        return $this->hasMany(ReadingHistory::class);
     }
 
     public function isAdmin()

@@ -1,53 +1,103 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Katalog') - Perpus Siswa</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>@yield('title', 'Katalog') - Perpus Digital</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
-    <style>
-        :root {
-            --primary-color: #F75D34;
-            --secondary-color: #FF8C42;
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        secondary: '#38BDF8',
+                        background: '#F8FAFC',
+                    }
+                }
+            }
         }
+    </script>
+</head>
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f8fafc;
-        }
+<body class="bg-gray-50 font-sans antialiased">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg">
+            <div class="flex items-center justify-center h-16 bg-primary text-white">
+                <i class="bi bi-book-half text-2xl mr-2"></i>
+                <span class="font-bold text-lg">Perpus Digital</span>
+            </div>
+            
+            <nav class="mt-5 px-4">
+                <div class="space-y-2">
+                    <a href="{{ route('student.dashboard') }}" 
+                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('student/dashboard') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                        <i class="bi bi-speedometer2 mr-3"></i>
+                        Dashboard
+                    </a>
+                    <a href="{{ route('student.books.index') }}" 
+                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('student/books*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                        <i class="bi bi-book mr-3"></i>
+                        Katalog Buku
+                    </a>
+                    <a href="{{ route('student.favorites.index') }}" 
+                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('student/favorites*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                        <i class="bi bi-heart mr-3"></i>
+                        Favorit
+                    </a>
+                    <a href="{{ route('student.reading-history.index') }}" 
+                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('student/reading-history*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                        <i class="bi bi-clock-history mr-3"></i>
+                        Riwayat Bacaan
+                    </a>
+                    <a href="{{ route('profile.edit') }}" 
+                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('profile*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                        <i class="bi bi-person mr-3"></i>
+                        Profil
+                    </a>
+                </div>
+            </nav>
+        </div>
 
-        .navbar {
-            padding: 1rem 0;
-            background-color: #fff !important;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <h1 class="text-xl font-semibold text-gray-900">@yield('title')</h1>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-600">
+                            <i class="bi bi-person-circle mr-1"></i>
+                            {{ auth()->user()->name }}
+                        </span>
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" 
+                                    class="text-sm text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                <i class="bi bi-box-arrow-right"></i>
+                                Keluar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </header>
 
-        .navbar-brand {
-            font-weight: 700;
-            color: var(--primary-color) !important;
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar-brand i {
-            margin-right: 8px;
-            font-size: 1.5rem;
-        }
-
-        .nav-link {
-            font-weight: 500;
-            color: #64748b !important;
-            padding: 0.5rem 1rem !important;
-            transition: all 0.2s;
-        }
+            <!-- Page Content -->
+            <main class="flex-1 overflow-y-auto bg-gray-50">
+                @yield('content')
+            </main>
+        </div>
+    </div>
+</body>
+</html>
 
         .nav-link:hover,
         .nav-link.active {
@@ -141,8 +191,12 @@
                             href="{{ route('student.books.index') }}">Katalog</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('student.borrowings.*') ? 'active' : '' }}"
-                            href="{{ route('student.borrowings.index') }}">Pinjaman Saya</a>
+                        <a class="nav-link {{ request()->routeIs('student.favorites.*') ? 'active' : '' }}"
+                            href="{{ route('student.favorites.index') }}">Favorit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('student.reading-history.*') ? 'active' : '' }}"
+                            href="{{ route('student.reading-history.index') }}">Riwayat Bacaan</a>
                     </li>
                 </ul>
                 <div class="navbar-nav">

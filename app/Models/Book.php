@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
-use App\Models\Borrowing;
+use App\Models\Favorite;
+use App\Models\ReadingHistory;
 
 class Book extends Model
 {
@@ -18,6 +19,10 @@ class Book extends Model
         'penerbit',
         'tahun_terbit',
         'stok',
+        'file_pdf',
+        'cover',
+        'deskripsi',
+        'jumlah_dibaca',
         'category_id',
     ];
 
@@ -33,8 +38,33 @@ class Book extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function borrowings()
+    public function favorites()
     {
-        return $this->hasMany(Borrowing::class);
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function readingHistories()
+    {
+        return $this->hasMany(ReadingHistory::class);
+    }
+
+    public function isFavoritedBy($userId)
+    {
+        return $this->favorites()->where('user_id', $userId)->exists();
+    }
+
+    public function incrementReadCount()
+    {
+        $this->increment('jumlah_dibaca');
+    }
+
+    public function getCoverUrlAttribute()
+    {
+        return $this->cover ? asset('storage/covers/' . $this->cover) : asset('images/default-book-cover.jpg');
+    }
+
+    public function getPdfUrlAttribute()
+    {
+        return $this->file_pdf ? asset('storage/books/' . $this->file_pdf) : null;
     }
 }

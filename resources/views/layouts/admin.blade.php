@@ -11,188 +11,224 @@
         rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2563EB',
-                        secondary: '#38BDF8',
-                        background: '#F8FAFC',
-                    }
-                }
-            }
+
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --primary: #ea580c;
+            --primary-light: #ffedd5;
+            --secondary: #0f172a;
+            --bg-body: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --radius-lg: 1rem;
         }
-    </script>
-</head>
 
-<body class="bg-gray-50 font-sans antialiased">
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg">
-            <div class="flex items-center justify-center h-16 bg-blue-600 text-white">
-                <i class="bi bi-book-half text-2xl mr-2"></i>
-                <span class="font-bold text-lg">Perpus Digital</span>
-            </div>
-            
-            <nav class="mt-5 px-4">
-                <div class="space-y-2">
-                    <a href="{{ route('admin.dashboard') }}" 
-                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('admin/dashboard') ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
-                        <i class="bi bi-speedometer2 mr-3"></i>
-                        Dashboard
-                    </a>
-                    <a href="{{ route('admin.books.index') }}" 
-                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('admin/books*') ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
-                        <i class="bi bi-book mr-3"></i>
-                        Buku
-                    </a>
-                    <a href="{{ route('admin.categories.index') }}" 
-                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('admin/categories*') ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
-                        <i class="bi bi-tags mr-3"></i>
-                        Kategori
-                    </a>
-                    <a href="{{ route('admin.students.index') }}" 
-                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('admin/students*') ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
-                        <i class="bi bi-people mr-3"></i>
-                        Siswa
-                    </a>
-                    <a href="{{ route('admin.reading-history.index') }}" 
-                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('admin/reading-history*') ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
-                        <i class="bi bi-clock-history mr-3"></i>
-                        Riwayat Baca
-                    </a>
-                </div>
-            </nav>
-        </div>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+        }
 
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Top Navigation -->
-            <header class="bg-white shadow-sm">
-                <div class="flex items-center justify-between px-6 py-4">
-                    <h1 class="text-xl font-semibold text-gray-900">@yield('title')</h1>
-                    <div class="flex items-center space-x-4">
-                        <span class="text-sm text-gray-600">
-                            <i class="bi bi-person-circle mr-1"></i>
-                            {{ auth()->user()->name }}
-                        </span>
-                        <form action="{{ route('logout') }}" method="POST" class="inline">
-                            @csrf
-                            <button type="submit" 
-                                    class="text-sm text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                <i class="bi bi-box-arrow-right"></i>
-                                Keluar
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </header>
+        #wrapper { display: flex; width: 100%; }
 
-            <!-- Page Content -->
-            <main class="flex-1 overflow-y-auto bg-gray-50">
-                @yield('content')
-            </main>
-        </div>
-    </div>
-</body>
-</html>
-            width: 32px;
-            height: 32px;
-            background: var(--primary-color);
-            border-radius: 8px;
+        /* Floating Sidebar Concept */
+        #sidebar-wrapper {
+            width: var(--sidebar-width);
+            height: calc(100vh - 2rem);
+            margin: 1rem;
+            background: var(--surface);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            border-radius: var(--radius-lg);
+            position: fixed;
+            z-index: 1000;
+            overflow-y: auto;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        #sidebar-wrapper::-webkit-scrollbar { width: 5px; }
+        #sidebar-wrapper::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+
+        .sidebar-heading {
+            padding: 2rem 1.5rem 1.5rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 1rem;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary) 0%, #c2410c 100%);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
-            margin-right: 10px;
+            margin-right: 12px;
+            box-shadow: 0 4px 10px rgba(234, 88, 12, 0.3);
         }
 
-        #sidebar-wrapper .list-group-item {
-            padding: 0.75rem 1.25rem;
+        .list-group-item {
+            padding: 0.85rem 1.25rem;
             border: none;
             background: transparent;
-            color: #6c757d;
-            font-weight: 500;
-            border-radius: 10px;
+            color: var(--text-muted);
+            font-weight: 600;
+            border-radius: 12px;
             margin: 0.25rem 1rem;
             display: flex;
             align-items: center;
+            transition: all 0.2s ease;
         }
 
-        #sidebar-wrapper .list-group-item i {
-            font-size: 1.25rem;
-            margin-right: 0.75rem;
+        .list-group-item i {
+            font-size: 1.2rem;
+            margin-right: 1rem;
+            transition: transform 0.2s;
         }
 
-        #sidebar-wrapper .list-group-item:hover {
-            color: var(--primary-color);
-            background: rgba(67, 97, 238, 0.05);
+        .list-group-item:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+            transform: translateX(4px);
         }
 
-        #sidebar-wrapper .list-group-item.active {
-            color: var(--primary-color);
-            background: rgba(67, 97, 238, 0.1);
+        .list-group-item.active {
+            color: var(--primary);
+            background: var(--primary-light);
+            box-shadow: inset 3px 0 0 var(--primary);
         }
 
         #page-content-wrapper {
             width: 100%;
-            padding-left: var(--sidebar-width);
+            padding-left: calc(var(--sidebar-width) + 2rem);
+            transition: all 0.3s;
         }
 
+        /* Navbar */
         .navbar {
-            padding: 1rem 1.5rem;
-            background: rgba(255, 255, 255, 0.8) !important;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1rem 2rem;
+            background: rgba(248, 250, 252, 0.8) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: none;
+            margin-bottom: 2rem;
         }
 
+        .dropdown-menu {
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            padding: 0.5rem;
+        }
+
+        .dropdown-item {
+            border-radius: 8px;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+        }
+        
+        .dropdown-item:hover { background: #f1f5f9; }
+
+        /* General Components */
         .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            background: var(--surface);
+            transition: box-shadow 0.3s;
         }
 
         .stat-card {
-            transition: transform 0.2s;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
         }
 
         .icon-box {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            flex-shrink: 0;
         }
 
         .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary) 0%, #c2410c 100%);
+            border: none;
             border-radius: 10px;
-            padding: 0.5rem 1.25rem;
+            padding: 0.6rem 1.5rem;
             font-weight: 600;
+            box-shadow: 0 4px 10px rgba(234, 88, 12, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(234, 88, 12, 0.3);
         }
 
+        /* Modern Tables */
+        .table { margin-bottom: 0; }
+        .table th, .table td {
+            vertical-align: middle;
+            padding: 1rem 1.5rem;
+            border-bottom-color: #f1f5f9;
+            color: var(--text-main);
+        }
+        
         .table thead th {
-            background: #f8f9fa;
-            font-weight: 600;
+            background: #f8fafc;
+            font-weight: 700;
             text-transform: uppercase;
             font-size: 0.75rem;
-            letter-spacing: 0.5px;
-            color: #6c757d;
-            border-top: none;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            border-bottom: 2px solid #e2e8f0;
         }
 
+        .table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .table tbody tr:hover { background: #f8fafc; }
+
         .badge {
-            padding: 0.5em 0.75em;
+            padding: 0.5em 0.8em;
             border-radius: 6px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        /* Media Queries for Responsive Sidebar */
+        @media (max-width: 991.98px) {
+            #sidebar-wrapper {
+                margin: 0;
+                height: 100vh;
+                border-radius: 0;
+                transform: translateX(-100%);
+            }
+            #wrapper.toggled #sidebar-wrapper { transform: translateX(0); }
+            #page-content-wrapper { padding-left: 0; }
         }
     </style>
     @yield('styles')

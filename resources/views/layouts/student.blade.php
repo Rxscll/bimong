@@ -11,161 +11,222 @@
         rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2563EB',
-                        secondary: '#38BDF8',
-                        background: '#F8FAFC',
-                    }
-                }
-            }
+
+    <style>
+        :root {
+<<<<<<< HEAD
+            --primary: #ea580c;
+            --primary-light: #ffedd5;
+            --secondary: #0f172a;
+            --bg-body: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --radius-lg: 1rem;
+=======
+            --primary-color: #F75D34;
+            --secondary-color: #FF8C42;
+>>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
         }
-    </script>
-</head>
 
-<body class="bg-gray-50 font-sans antialiased">
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg">
-            <div class="flex items-center justify-center h-16 bg-primary text-white">
-                <i class="bi bi-book-half text-2xl mr-2"></i>
-                <span class="font-bold text-lg">Perpus Digital</span>
-            </div>
-            
-            <nav class="mt-5 px-4">
-                <div class="space-y-2">
-                    <a href="{{ route('student.dashboard') }}" 
-                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('student/dashboard') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
-                        <i class="bi bi-speedometer2 mr-3"></i>
-                        Dashboard
-                    </a>
-                    <a href="{{ route('student.books.index') }}" 
-                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('student/books*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
-                        <i class="bi bi-book mr-3"></i>
-                        Katalog Buku
-                    </a>
-                    <a href="{{ route('student.favorites.index') }}" 
-                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('student/favorites*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
-                        <i class="bi bi-heart mr-3"></i>
-                        Favorit
-                    </a>
-                    <a href="{{ route('student.reading-history.index') }}" 
-                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('student/reading-history*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
-                        <i class="bi bi-clock-history mr-3"></i>
-                        Riwayat Bacaan
-                    </a>
-                    <a href="{{ route('profile.edit') }}" 
-                       class="flex items-center px-4 py-2 text-sm font-medium rounded-lg {{ request()->is('profile*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
-                        <i class="bi bi-person mr-3"></i>
-                        Profil
-                    </a>
-                </div>
-            </nav>
-        </div>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+<<<<<<< HEAD
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+        }
 
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Top Navigation -->
-            <header class="bg-white shadow-sm">
-                <div class="flex items-center justify-between px-6 py-4">
-                    <h1 class="text-xl font-semibold text-gray-900">@yield('title')</h1>
-                    <div class="flex items-center space-x-4">
-                        <span class="text-sm text-gray-600">
-                            <i class="bi bi-person-circle mr-1"></i>
-                            {{ auth()->user()->name }}
-                        </span>
-                        <form action="{{ route('logout') }}" method="POST" class="inline">
-                            @csrf
-                            <button type="submit" 
-                                    class="text-sm text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                <i class="bi bi-box-arrow-right"></i>
-                                Keluar
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </header>
+        .navbar {
+            padding: 1.25rem 0;
+            background: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s;
+        }
 
-            <!-- Page Content -->
-            <main class="flex-1 overflow-y-auto bg-gray-50">
-                @yield('content')
-            </main>
-        </div>
-    </div>
-</body>
-</html>
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--secondary) !important;
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.02em;
+        }
+
+        .navbar-brand i {
+            margin-right: 12px;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #c2410c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: var(--text-muted) !important;
+            padding: 0.5rem 1.25rem !important;
+            transition: all 0.2s;
+            border-radius: 50px;
+=======
+            background-color: #f8fafc;
+        }
+
+        .navbar {
+            padding: 1rem 0;
+            background-color: #fff !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand i {
+            margin-right: 8px;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: #64748b !important;
+            padding: 0.5rem 1rem !important;
+            transition: all 0.2s;
+>>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
+        }
 
         .nav-link:hover,
         .nav-link.active {
-            color: var(--primary-color) !important;
+            color: var(--primary) !important;
+            background: rgba(234, 88, 12, 0.08);
         }
+
+        .dropdown-menu {
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            padding: 0.5rem;
+        }
+
+        .dropdown-item {
+            border-radius: 8px;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+        }
+        
+        .dropdown-item:hover { background: #f1f5f9; }
 
         .hero-section {
-            background: linear-gradient(135deg, #F75D34 0%, #FF8C42 100%);
-            padding: 60px 0;
-            color: white;
+            background: radial-gradient(circle at top right, #fff7ed 0%, #ffffff 100%);
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
             margin-bottom: 40px;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
         }
 
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -50px;
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            filter: blur(120px);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+
+        .hero-section { color: var(--secondary) }
+
         .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            background: var(--surface);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+            border-color: rgba(234, 88, 12, 0.2);
         }
 
         .book-img-wrapper {
-            height: 200px;
-            background-color: #f1f5f9;
+            height: 220px;
+            background: #f1f5f9;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            position: relative;
         }
+
+        .book-img-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 40px;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .card:hover .book-img-wrapper::after { opacity: 1; }
 
         .book-img-wrapper img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            padding: 1rem;
+            transition: transform 0.5s ease;
+        }
+        
+        .card:hover .book-img-wrapper img {
+            transform: scale(1.05);
         }
 
         .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary) 0%, #c2410c 100%);
+            border: none;
             border-radius: 10px;
+            padding: 0.6rem 1.5rem;
             font-weight: 600;
+            box-shadow: 0 4px 10px rgba(234, 88, 12, 0.2);
+            transition: all 0.3s;
         }
-
+        
         .btn-primary:hover {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(234, 88, 12, 0.3);
         }
 
         .badge-category {
-            font-size: 10px;
+            font-size: 11px;
             text-transform: uppercase;
             font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 4px;
-            background-color: rgba(67, 97, 238, 0.1);
-            color: var(--primary-color);
+            padding: 6px 10px;
+            border-radius: 6px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            letter-spacing: 0.05em;
         }
 
         .footer {
             margin-top: 80px;
             padding: 40px 0;
-            background-color: #fff;
-            border-top: 1px solid #e2e8f0;
+            background-color: var(--surface);
+            border-top: 1px solid rgba(226, 232, 240, 0.8);
         }
     </style>
     @yield('styles')

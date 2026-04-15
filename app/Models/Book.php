@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\Favorite;
 use App\Models\ReadingHistory;
+use App\Models\Rating;
 
 class Book extends Model
 {
@@ -56,6 +57,21 @@ class Book extends Model
     public function incrementReadCount()
     {
         $this->increment('jumlah_dibaca');
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        return round($this->ratings()->avg('rating'), 1) ?: 0;
+    }
+
+    public function userRating($userId)
+    {
+        return $this->ratings()->where('user_id', $userId)->value('rating');
     }
 
     public function getCoverUrlAttribute()

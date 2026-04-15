@@ -102,8 +102,8 @@
     <!-- Header Summary Section -->
     <div class="mb-12 pl-4 lg:pl-0 flex flex-col md:flex-row md:items-end justify-between">
         <div>
-            <p class="text-slate-500 text-sm font-bold uppercase tracking-widest mb-2">Dashboard Koleksi</p>
-            <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">Selamat Datang, <span class="text-slate-600">{{ explode(' ', auth()->user()->name)[0] }}</span></h1>
+            <p class="text-slate-500 text-sm font-bold tracking-widest uppercase mb-2">Student Dashboard</p>
+            <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">Selamat Datang, <span class="text-slate-600">{{ auth()->check() ? explode(' ', auth()->user()->name)[0] : 'Tamu' }}</span></h1>
         </div>
         <div class="mt-4 md:mt-0 flex gap-4">
             <div class="glass-panel px-6 py-3 rounded-2xl flex items-center gap-4">
@@ -177,14 +177,19 @@
                     <h3 class="text-slate-900 font-extrabold text-2xl mb-2 leading-tight">{{ $featuredBook->judul }}</h3>
                     <p class="text-slate-500 font-medium text-sm mb-4">{{ $featuredBook->penulis }}</p>
                     
-                    <!-- Dummy Rating -->
-                    <div class="flex items-center justify-center gap-1 mb-6">
-                        <i class="bi bi-star-fill text-slate-800 text-sm"></i>
-                        <i class="bi bi-star-fill text-slate-800 text-sm"></i>
-                        <i class="bi bi-star-fill text-slate-800 text-sm"></i>
-                        <i class="bi bi-star-fill text-slate-800 text-sm"></i>
-                        <i class="bi bi-star-half text-slate-800 text-sm"></i>
-                        <span class="text-slate-500 font-semibold text-xs ml-2">(4.8)</span>
+                    <!-- Real Rating -->
+                    <div class="flex items-center justify-center gap-1 mb-6" title="Rating Rata-Rata: {{ $featuredBook->averageRating }}">
+                        @php $rating = $featuredBook->averageRating; @endphp
+                        @for($i = 1; $i <= 5; $i++)
+                            @if($i <= $rating)
+                                <i class="bi bi-star-fill text-amber-400 text-sm drop-shadow-sm"></i>
+                            @elseif($i - 0.5 <= $rating)
+                                <i class="bi bi-star-half text-amber-400 text-sm drop-shadow-sm"></i>
+                            @else
+                                <i class="bi bi-star text-slate-300 text-sm"></i>
+                            @endif
+                        @endfor
+                        <span class="text-slate-500 font-semibold text-xs ml-2">({{ number_format($rating, 1) }})</span>
                     </div>
 
                     <p class="text-slate-600 leading-relaxed text-sm mb-8 flex-grow line-clamp-3">
@@ -219,6 +224,9 @@
                         <p class="text-slate-500 font-medium text-sm mb-3 truncate">{{ $book->penulis }}</p>
                         
                         <div class="flex items-center gap-3">
+                            <span class="flex items-center text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1.5 rounded-lg border border-amber-200">
+                                <i class="bi bi-star-fill drop-shadow-sm mr-1.5"></i> {{ $book->averageRating }}
+                            </span>
                             <span class="flex items-center text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-1.5 rounded-lg border border-slate-200">
                                 <i class="bi bi-eye mr-2"></i> {{ $book->jumlah_dibaca ?? max(12, rand(10,50)) }}
                             </span>

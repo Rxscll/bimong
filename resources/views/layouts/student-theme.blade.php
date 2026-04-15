@@ -115,6 +115,7 @@
 
         <!-- Bottom User info -->
         <div class="p-6 border-t border-slate-100 bg-slate-50/50">
+            @auth
             <a href="{{ route('profile.edit') }}" class="flex flex-col items-center lg:items-start lg:flex-row lg:items-center px-2 py-3 mb-4 rounded-xl group cursor-pointer hover:bg-white transition-all border border-transparent hover:border-slate-200 hover:shadow-sm">
                 <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0f172a&color=fff" alt="User" class="w-10 h-10 rounded-full shadow-sm">
                 <div class="mt-2 lg:mt-0 lg:ml-3 hidden lg:block overflow-hidden">
@@ -130,6 +131,20 @@
                     <span class="ml-3 hidden lg:block">Keluar Akun</span>
                 </button>
             </form>
+            @else
+            <div class="flex flex-col items-center lg:items-start lg:flex-row lg:items-center px-2 py-3 mb-4 rounded-xl">
+                <div class="w-10 h-10 rounded-full shadow-sm bg-slate-200 text-slate-500 flex items-center justify-center font-bold text-lg"><i class="bi bi-person"></i></div>
+                <div class="mt-2 lg:mt-0 lg:ml-3 hidden lg:block overflow-hidden">
+                    <p class="text-sm font-bold text-slate-900 truncate">Pengunjung Tamu</p>
+                    <p class="text-xs text-slate-500 font-medium mt-0.5">Non-Member</p>
+                </div>
+            </div>
+            
+            <a href="{{ route('login') }}" class="w-full flex items-center justify-center lg:justify-start px-4 py-3 text-emerald-600 font-semibold bg-emerald-50 hover:bg-emerald-100 rounded-xl transition-all">
+                <i class="bi bi-box-arrow-in-right text-xl"></i>
+                <span class="ml-3 hidden lg:block">Masuk Akun</span>
+            </a>
+            @endauth
         </div>
     </aside>
 

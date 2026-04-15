@@ -37,6 +37,7 @@
             <!-- Action Buttons -->
             <div class="flex flex-wrap items-center justify-center gap-4 mb-10 w-full mt-2">
                 <!-- Toggle Favorite Button -->
+                @auth
                 <form action="{{ route('student.favorites.toggle', $book->id) }}" method="POST" class="m-0">
                     @csrf
                     <button type="submit" 
@@ -45,14 +46,28 @@
                         <span>{{ $book->isFavoritedBy(auth()->id()) ? 'Tersimpan' : 'Mulai Simpan' }}</span>
                     </button>
                 </form>
+                @else
+                <a href="{{ route('login') }}" class="px-6 py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-sm border bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-slate-900">
+                    <i class="bi bi-heart text-lg"></i>
+                    <span>Mulai Simpan</span>
+                </a>
+                @endauth
 
                 <!-- Read Document Button -->
                 @if($book->file_pdf)
+                    @auth
                     <a href="{{ route('student.books.read', $book->id) }}" 
                        class="px-8 py-3.5 bg-slate-900 text-white rounded-xl shadow-lg shadow-slate-900/20 hover:bg-slate-800 transition-all font-bold flex items-center justify-center gap-2">
                         <i class="bi bi-book text-lg"></i>
                         Mulai Membaca
                     </a>
+                    @else
+                    <a href="{{ route('login') }}" 
+                       class="px-8 py-3.5 bg-slate-900 text-white rounded-xl shadow-lg shadow-slate-900/20 hover:bg-slate-800 transition-all font-bold flex items-center justify-center gap-2">
+                        <i class="bi bi-book text-lg"></i>
+                        Mulai Membaca
+                    </a>
+                    @endauth
                 @else
                     <button disabled 
                             class="px-8 py-3.5 bg-slate-100 text-slate-400 border border-slate-200 rounded-xl cursor-not-allowed font-bold flex items-center justify-center gap-2 tooltip" title="Hanya tersedia buku fisik di perpustakaan">
@@ -63,6 +78,37 @@
             </div>
 
             <hr class="w-24 border-slate-200 mx-auto mb-10">
+
+            <!-- Rating Section -->
+            <div class="w-full max-w-sm mx-auto bg-slate-50 border border-slate-200 p-6 rounded-2xl mb-10">
+                <h4 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Penilaian Anda</h4>
+                <form action="{{ route('student.books.rate', $book->id) }}" method="POST" id="ratingForm">
+                    @csrf
+                    <div class="flex flex-row-reverse justify-center gap-2" id="star-rating">
+                        @for($i = 5; $i >= 1; $i--)
+                            @auth
+                            <input type="radio" name="rating" id="star-{{ $i }}" value="{{ $i }}" class="peer hidden" {{ $book->userRating(auth()->id()) == $i ? 'checked' : '' }} onchange="this.form.submit();" />
+                            <label for="star-{{ $i }}" class="cursor-pointer text-slate-200 peer-checked:text-amber-400 hover:text-amber-400 text-4xl transition-colors">
+                                <i class="bi bi-star-fill drop-shadow-sm"></i>
+                            </label>
+                            @else
+                            <input type="radio" name="rating" id="star-{{ $i }}" value="{{ $i }}" class="peer hidden" onclick="window.location='{{ route('login') }}'" />
+                            <label for="star-{{ $i }}" class="cursor-pointer text-slate-200 hover:text-amber-400 text-4xl transition-colors">
+                                <i class="bi bi-star-fill drop-shadow-sm"></i>
+                            </label>
+                            @endauth
+                        @endfor
+                    </div>
+                </form>
+            </div>
+            
+            <style>
+                /* CSS Trick for star rating hover */
+                #star-rating label:hover,
+                #star-rating label:hover ~ label {
+                    color: #fbbf24 !important; /* amber-400 */
+                }
+            </style>
 
             <!-- Specs Grid -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full mb-10 text-center">

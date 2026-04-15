@@ -83,21 +83,36 @@
                     </div>
                 </div>
 
-                <!-- PDF Frame -->
-                <!-- Menghilangkan border asli PDF toolbar dengan hash navigasi 0 -->
-                <div class="flex-grow w-full bg-slate-100 rounded-[1.5rem] overflow-hidden border border-slate-200 min-h-[750px] relative mt-1" id="pdfViewerContainer">
-                    <iframe src="{{ $book->pdf_url }}#toolbar=0&navpanes=0&scrollbar=0&view=FitH" 
-                            id="documentIframe"
-                            width="100%" 
-                            height="100%" 
-                            class="border-0 absolute inset-0 w-full h-full pointer-events-auto"
-                            frameborder="0"
-                            style="border: none;"
-                            oncontextmenu="return false;">
-                    </iframe>
+                <!-- PDF Frame using PDF.js -->
+                <div class="flex-grow w-full bg-slate-100 rounded-[1.5rem] overflow-hidden border border-slate-200 mt-1 flex flex-col relative" id="pdfViewerContainer">
                     
-                    <!-- Cover overlay layer that catches right-clicks but is pointer-events-none usually. 
-                         For iframe dragging, we let pointer-events pass, but intercept contextmenu on body instead. -->
+                    <!-- Custom Toolbar -->
+                    <div class="w-full flex justify-between items-center p-4 bg-white border-b border-slate-200 z-10 shrink-0">
+                        <button id="prevBtn" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold transition-colors disabled:opacity-50 flex items-center gap-2">
+                            <i class="bi bi-chevron-left"></i> <span class="hidden sm:inline">Sebelumnya</span>
+                        </button>
+                        
+                        <div class="text-sm font-bold text-slate-600 flex items-center gap-2">
+                            Hal. <input type="number" id="pageNumberInput" value="{{ $history->last_page ?? 1 }}" min="1" class="w-16 text-center border-2 border-slate-200 focus:border-slate-500 rounded p-1 text-slate-800 outline-none" /> / <span id="pageCount">-</span>
+                        </div>
+
+                        <button id="nextBtn" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold transition-colors disabled:opacity-50 flex items-center gap-2">
+                            <span class="hidden sm:inline">Selanjutnya</span> <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- PDF Canvas Area -->
+                    <div class="flex-grow overflow-auto flex justify-center items-start p-4 relative" id="canvasContainer">
+                        <canvas id="pdfCanvas" class="shadow-xl rounded-lg bg-white max-w-full pointer-events-none select-none" oncontextmenu="return false;"></canvas>
+                        
+                        <!-- Loading spinner -->
+                        <div id="pdfLoader" class="absolute inset-0 flex items-center justify-center bg-slate-100/90 z-20">
+                            <div class="flex flex-col items-center">
+                                <div class="animate-spin rounded-full h-12 w-12 border-4 border-slate-200 border-b-slate-900 mb-3"></div>
+                                <p class="text-slate-500 font-bold text-sm tracking-wide">Memuat Dokumen...</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -119,7 +134,11 @@ iframe::-webkit-scrollbar {
 }
 </style>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
+    // Konfigurasi Worker PDF.js
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     const overlay = document.getElementById('screenshotOverlay');
     const pdfContainer = document.getElementById('pdfViewerContainer');
@@ -196,6 +215,147 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 1500);
     }
+
+    // --- PDF.js Logic ---
+    const url = "{{ $book->pdf_url }}";
+    let pdfDoc = null,
+        pageNum = {{ $history->last_page ?? 1 }},
+        pageIsRendering = false,
+        pageNumIsPending = null;
+
+    const scale = 1.5,
+          canvas = document.getElementById('pdfCanvas'),
+          ctx = canvas.getContext('2d'),
+          pdfLoader = document.getElementById('pdfLoader'),
+          pageCountEl = document.getElementById('pageCount'),
+          pageInput = document.getElementById('pageNumberInput'),
+          prevBtn = document.getElementById('prevBtn'),
+          nextBtn = document.getElementById('nextBtn');
+
+    // Render the page
+    const renderPage = num => {
+        pageIsRendering = true;
+        
+        // Fetch page
+        pdfDoc.getPage(num).then(page => {
+            // Setup viewport
+            
+            // Adjust scale based on container width to make it responsive
+            const containerWidth = document.getElementById('canvasContainer').clientWidth - 40; // 40 is padding
+            let viewport = page.getViewport({ scale: 1.0 });
+            let renderScale = containerWidth / viewport.width;
+            
+            // Don't upscale too much
+            if (renderScale > 2) renderScale = 2;
+            if (renderScale < 0.5) renderScale = 0.5;
+
+            viewport = page.getViewport({ scale: renderScale });
+
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderCtx = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+
+            page.render(renderCtx).promise.then(() => {
+                pageIsRendering = false;
+
+                if (pageNumIsPending !== null) {
+                    renderPage(pageNumIsPending);
+                    pageNumIsPending = null;
+                }
+            });
+
+            // Update UI
+            pageInput.value = num;
+            updateButtons();
+            
+            // Send update to server
+            saveCurrentPageToServer(num);
+        });
+    };
+
+    // Check for pages rendering
+    const queueRenderPage = num => {
+        if (pageIsRendering) {
+            pageNumIsPending = num;
+        } else {
+            renderPage(num);
+        }
+    };
+
+    // Show Prev Page
+    const showPrevPage = () => {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    };
+
+    // Show Next Page
+    const showNextPage = () => {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    };
+
+    // Validate and jump to page
+    const jumpToPage = () => {
+        let val = parseInt(pageInput.value);
+        if (isNaN(val) || val < 1) val = 1;
+        if (val > pdfDoc.numPages) val = pdfDoc.numPages;
+        
+        pageNum = val;
+        queueRenderPage(pageNum);
+    };
+
+    // Save page to server via AJAX
+    let saveTimeout = null;
+    const saveCurrentPageToServer = (num) => {
+        // debounce save
+        if(saveTimeout) clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(() => {
+            fetch("{{ route('student.books.update-page', $book->id) }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ page: num })
+            }).catch(e => console.error("Could not save page history", e));
+        }, 1000);
+    };
+
+    const updateButtons = () => {
+        prevBtn.disabled = pageNum <= 1;
+        nextBtn.disabled = pageNum >= pdfDoc.numPages;
+    };
+
+    // Event listeners
+    prevBtn.addEventListener('click', showPrevPage);
+    nextBtn.addEventListener('click', showNextPage);
+    pageInput.addEventListener('change', jumpToPage);
+
+    // Initial Load PDF
+    pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
+        pdfDoc = pdfDoc_;
+        pageCountEl.textContent = pdfDoc.numPages;
+        
+        // Ensure starting page doesn't exceed bounds
+        if (pageNum > pdfDoc.numPages) pageNum = pdfDoc.numPages;
+        
+        renderPage(pageNum);
+        
+        // Hide loader
+        pdfLoader.classList.add('hidden');
+    }).catch(err => {
+        pdfLoader.innerHTML = `<div class="text-rose-500 font-bold bg-rose-50 p-4 rounded text-center border border-rose-200">
+            <i class="bi bi-exclamation-triangle block text-3xl mb-2"></i>
+            <div>Gagal memuat dokumen PDF.</div>
+            <div class="text-xs text-rose-400 mt-1 font-medium">${err.message}</div>
+        </div>`;
+    });
 });
 </script>
 @endsection

@@ -12,7 +12,7 @@
         <a href="{{ route('admin.students.index') }}" class="inline-flex px-5 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-50 hover:text-slate-900 font-bold shadow-sm transition-all items-center gap-2 w-max">
             <i class="bi bi-arrow-left"></i> Kembali
         </a>
-    </div>
+    </div>`
 
     <div class="glass-panel p-8 sm:p-10 rounded-[2.5rem] bg-white border border-slate-200 shadow-sm relative">
         <form action="{{ route('admin.students.update', $student->id) }}" method="POST" class="space-y-6">

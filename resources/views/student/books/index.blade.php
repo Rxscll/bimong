@@ -48,7 +48,7 @@
         @forelse($books as $book)
             <div class="glass-panel glass-panel-hover rounded-[1.5rem] overflow-hidden flex flex-col group bg-white border border-slate-200">
                 <!-- Cover Image -->
-                <div class="relative h-72 overflow-hidden bg-slate-100 border-b border-slate-100">
+                <a href="{{ route('student.books.show', $book->id) }}" class="relative h-72 overflow-hidden bg-slate-100 border-b border-slate-100 block">
                     <img src="{{ $book->cover_url }}" alt="{{ $book->judul }}" 
                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                     
@@ -73,7 +73,7 @@
                     <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 text-center">
                         <span class="text-white font-bold text-sm bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl border border-white/30 inline-block pointer-events-none shadow-lg">Lihat Detail</span>
                     </div>
-                </div>
+                </a>
 
                 <!-- Book Info -->
                 <div class="p-6 flex flex-col flex-grow relative z-10 bg-white">
@@ -87,8 +87,12 @@
                     <p class="text-sm font-medium text-slate-500 mb-4">{{ $book->penulis }} <span class="mx-1 font-normal">•</span> {{ $book->tahun_terbit }}</p>
                     
                     <!-- Stats -->
-                    <div class="flex items-center text-xs font-bold text-slate-400 mb-6 gap-4">
-                        <span class="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-md border border-slate-100">
+                    <div class="flex items-center flex-wrap text-xs font-bold text-slate-400 mb-6 gap-3">
+                        <span class="flex items-center gap-1.5 bg-amber-50 text-amber-600 px-2 py-1 rounded-md border border-amber-200" title="Rating Rata-Rata">
+                            <i class="bi bi-star-fill drop-shadow-sm"></i>
+                            {{ $book->averageRating }}
+                        </span>
+                        <span class="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-md border border-slate-100" title="Total Dibaca">
                             <i class="bi bi-eye-fill text-slate-300"></i>
                             {{ $book->jumlah_dibaca ?? 0 }}
                         </span>

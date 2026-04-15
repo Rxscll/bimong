@@ -75,9 +75,9 @@
                 <a href="#catalogue" class="nav-link text-sm font-semibold text-slate-500 hover:text-slate-900 transition">Katalog</a>
             </div>
 
-            <div class="hidden md:flex space-x-4 items-center">
-                <a href="{{ route('login') }}" class="text-sm font-semibold text-slate-900 hover:text-slate-600 transition">Masuk</a>
-                <a href="{{ route('register') }}" class="px-5 py-2.5 rounded-full bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 transition shadow-sm">Daftar</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="{{ route('student.dashboard') }}" class="text-sm font-semibold text-slate-900 hover:text-slate-600 transition">Akses Tamu</a>
+                <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-full bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 transition shadow-sm">Login Siswa</a>
             </div>
 
             <!-- Mobile menu button -->

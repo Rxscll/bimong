@@ -68,13 +68,11 @@
             Masuk Sekarang <i class="bi bi-arrow-right ml-2"></i>
         </button>
 
-        @if (Route::has('register'))
-            <div class="mt-8 text-center border-t border-slate-100 pt-6">
-                <p class="text-sm font-medium text-slate-500">
-                    Belum punya akun? 
-                    <a href="{{ route('register') }}" class="text-slate-900 font-bold hover:underline transition">Daftar Gratis</a>
-                </p>
-            </div>
-        @endif
+        <div class="mt-8 text-center border-t border-slate-100 pt-6">
+            <p class="text-sm font-medium text-slate-500 mb-3">Tidak memiliki akun terdaftar?</p>
+            <a href="{{ route('student.dashboard') }}" class="inline-flex w-full items-center justify-center py-3 px-4 bg-slate-100/80 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all border border-slate-200 text-sm">
+                <i class="bi bi-person mr-2"></i> Jelajahi Sebagai Tamu
+            </a>
+        </div>
     </form>
 @endsection

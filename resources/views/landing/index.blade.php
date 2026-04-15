@@ -24,10 +24,10 @@
                 </p>
                 <div class="flex flex-wrap items-center gap-4">
                     <a href="{{ route('login') }}" class="px-8 py-4 rounded-full bg-slate-900 text-white font-bold text-lg hover:bg-slate-800 transition-all duration-300 shadow-xl shadow-slate-900/20">
-                        Mulai Membaca
+                        Login Siswa
                     </a>
-                    <a href="#catalogue" class="px-8 py-4 rounded-full bg-transparent border-2 border-slate-200 text-slate-900 font-bold text-lg hover:border-slate-900 transition-all duration-300">
-                        Jelajahi Koleksi
+                    <a href="{{ route('student.dashboard') }}" class="px-8 py-4 rounded-full bg-transparent border-2 border-slate-200 text-slate-900 font-bold text-lg hover:border-slate-900 transition-all duration-300">
+                        Jelajah Sebagai Tamu
                     </a>
                 </div>
             </div>
@@ -35,7 +35,7 @@
             <!-- Image Content -->
             <div class="w-full lg:w-1/2 reveal">
                 <div class="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
-                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=1470&auto=format&fit=crop" alt="Modern Library Architecture" class="w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1470&auto=format&fit=crop" alt="Perpustakaan Digital dan Deretan Buku" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent"></div>
                 </div>
             </div>
@@ -132,7 +132,7 @@
                 </p>
             </div>
             <div class="mt-8 md:mt-0">
-                <a href="{{ route('login') }}" class="inline-flex items-center text-slate-900 font-bold hover:text-slate-600 transition group">
+                <a href="{{ route('student.books.index') }}" class="inline-flex items-center text-slate-900 font-bold hover:text-slate-600 transition group">
                     Lihat Semua Koleksi 
                     <i class="bi bi-arrow-right ml-2 transform group-hover:translate-x-1 transition"></i>
                 </a>
@@ -140,28 +140,23 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            @php
-                $books = [
-                    ['title' => 'Filosofi Teras', 'img' => 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800&auto=format&fit=crop'],
-                    ['title' => 'Atomic Habits', 'img' => 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=800&auto=format&fit=crop'],
-                    ['title' => 'Laskar Pelangi', 'img' => 'https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800&auto=format&fit=crop'],
-                    ['title' => 'Bumi', 'img' => 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=800&auto=format&fit=crop'],
-                ];
-            @endphp
-            
-            @foreach($books as $book)
-            <div class="group cursor-pointer reveal">
-                <!-- Vertical Card: 70% image, 30% text -->
-                <div class="relative w-full aspect-[3/4] rounded-2xl overflow-hidden mb-6 bg-slate-100">
-                    <img src="{{ $book['img'] }}" alt="{{ $book['title'] }}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+            @forelse($popularBooks as $book)
+            <div class="group cursor-default reveal">
+                <!-- Vertical Card: Image -->
+                <div class="relative w-full aspect-[3/4] rounded-2xl overflow-hidden mb-6 bg-slate-100 shadow-md">
+                    <img src="{{ $book->cover_url }}" alt="{{ $book->judul }}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     <div class="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500"></div>
                 </div>
                 <div>
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">Buku Populer</span>
-                    <h3 class="text-2xl font-bold text-slate-900 group-hover:text-slate-600 transition-colors">{{ $book['title'] }}</h3>
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-slate-600 transition-colors">{{ $book->judul }}</h3>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <div class="col-span-1 sm:col-span-2 lg:col-span-4 text-center py-10">
+                <p class="text-slate-500 font-medium">Buku belum tersedia.</p>
+            </div>
+            @endforelse
         </div>
     </div>
 </section>
@@ -208,8 +203,8 @@
             Siap untuk memulai perjalanan membaca yang baru?
         </h2>
         <div class="flex justify-center">
-            <a href="{{ route('login') }}" class="px-10 py-5 rounded-full bg-slate-900 text-white font-bold text-lg hover:bg-slate-800 transition-all duration-300 shadow-2xl shadow-slate-900/20">
-                Mulai Sekarang
+            <a href="{{ route('student.dashboard') }}" class="px-10 py-5 rounded-full bg-slate-900 text-white font-bold text-lg hover:bg-slate-800 transition-all duration-300 shadow-2xl shadow-slate-900/20">
+                Mulai Sebagai Tamu
             </a>
         </div>
     </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\ReadingHistory;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -52,17 +53,52 @@ class BookController extends Controller
         $book->incrementReadCount();
 
         // Save reading history
-        ReadingHistory::updateOrCreate(
+        $history = ReadingHistory::firstOrCreate(
             [
                 'user_id' => auth()->id(),
                 'book_id' => $book->id,
             ],
             [
                 'last_page' => 1,
-                'updated_at' => now(),
             ]
         );
+        $history->touch();
 
-        return view('student.books.read', compact('book'));
+        return view('student.books.read', compact('book', 'history'));
+    }
+
+    public function updatePage(Request $request, $id)
+    {
+        $request->validate([
+            'page' => 'required|integer|min:1'
+        ]);
+
+        $history = ReadingHistory::where('user_id', auth()->id())
+            ->where('book_id', $id)
+            ->first();
+
+        if ($history) {
+            $history->last_page = $request->page;
+            $history->save();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false], 404);
+    }
+
+    public function rate(Request $request, $id)
+    {
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        $book = Book::findOrFail($id);
+
+        Rating::updateOrCreate(
+            ['user_id' => auth()->id(), 'book_id' => $book->id],
+            ['rating' => $request->rating]
+        );
+
+        return back()->with('success', 'Berhasil memberikan penilaian untuk buku ini!');
     }
 }

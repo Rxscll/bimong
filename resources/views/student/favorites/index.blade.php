@@ -50,8 +50,12 @@
                     <p class="text-sm font-medium text-slate-500 mb-4">{{ $favorite->book->penulis }} <span class="mx-1 font-normal">•</span> {{ $favorite->book->tahun_terbit }}</p>
 
                     <!-- Stats -->
-                    <div class="flex items-center text-xs font-bold text-slate-400 mb-6 gap-4">
-                        <span class="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-md border border-slate-100">
+                    <div class="flex items-center flex-wrap text-xs font-bold text-slate-400 mb-6 gap-3">
+                        <span class="flex items-center gap-1.5 bg-amber-50 text-amber-600 px-2 py-1 rounded-md border border-amber-200" title="Rating Rata-Rata">
+                            <i class="bi bi-star-fill drop-shadow-sm"></i>
+                            {{ $favorite->book->averageRating }}
+                        </span>
+                        <span class="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-md border border-slate-100" title="Total Dibaca">
                             <i class="bi bi-eye-fill text-slate-300"></i>
                             {{ $favorite->book->jumlah_dibaca ?? 0 }}
                         </span>

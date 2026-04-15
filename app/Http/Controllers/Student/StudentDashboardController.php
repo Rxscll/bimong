@@ -15,11 +15,11 @@ class StudentDashboardController extends Controller
         $userId = auth()->id();
         
         $totalBooks = Book::count();
-        $totalFavorites = Favorite::where('user_id', $userId)->count();
-        $totalReadBooks = ReadingHistory::where('user_id', $userId)->distinct('book_id')->count();
+        $totalFavorites = $userId ? Favorite::where('user_id', $userId)->count() : 0;
+        $totalReadBooks = $userId ? ReadingHistory::where('user_id', $userId)->distinct('book_id')->count() : 0;
         $recentBooks = Book::latest()->take(5)->get();
         $popularBooks = Book::orderBy('jumlah_dibaca', 'desc')->take(3)->get();
-        $recentReadings = ReadingHistory::with('book')->where('user_id', $userId)->latest()->take(5)->get();
+        $recentReadings = $userId ? ReadingHistory::with('book')->where('user_id', $userId)->latest()->take(5)->get() : collect();
 
         return view('student.dashboard.index', compact(
             'totalBooks',

@@ -6,25 +6,31 @@
 <!-- Hero Section -->
 <section id="home" class="hero-section">
     <div class="container">
-<<<<<<< HEAD
         <div class="row align-items-center">
             <div class="col-lg-7">
                 <div class="hero-content reveal">
+                    <div class="badge bg-primary-light text-primary fw-bold px-3 py-2 rounded-pill mb-3 shadow-sm" style="background-color: var(--primary-light);">
+                        <i class="bi bi-star-fill text-warning me-1"></i> Perpustakaan Digital Sekolah #1
+                    </div>
                     <h1>
                         Tingkatkan <br>
                         <span>Literasi Digital</span><br>
                         Sekolah Anda
                     </h1>
                     <p>
-                        Akses perpustakaan modern dengan ribuan koleksi buku digital. Mudah dipinjam, nyaman dibaca, kapan saja dan di mana saja.
+                        Akses perpustakaan modern dengan ratusan koleksi buku digital. Bebas pinjam, praktis baca PDF langsung dari perangkatmu, kapan saja dan di mana saja.
                     </p>
                     <div class="actions d-flex gap-3 flex-wrap">
-                        <a href="{{ route('login') }}" class="btn btn-primary px-5 py-3">
-                            <i class="bi bi-rocket-takeoff me-2"></i>Mulai Sekarang
+                        <a href="{{ route('login') }}" class="btn btn-primary px-5 py-3 shadow">
+                            <i class="bi bi-rocket-takeoff me-2"></i>Mulai Membaca
                         </a>
                         <a href="#popular-books" class="btn btn-outline-primary px-5 py-3">
                             Lihat Koleksi <i class="bi bi-chevron-down ms-1"></i>
                         </a>
+                    </div>
+                    <div class="mt-4 pt-3 d-flex align-items-center gap-4 text-muted small fw-semibold">
+                        <div><i class="bi bi-check-circle-fill text-success me-1"></i> 500+ Koleksi E-Book</div>
+                        <div><i class="bi bi-check-circle-fill text-success me-1"></i> 1.200+ Siswa Aktif</div>
                     </div>
                 </div>
             </div>
@@ -58,35 +64,6 @@
                         <div class="mockup-card floating-card-2 shadow-md">
                             <i class="bi bi-star-fill text-warning"></i>
                             <span>4.9 Rating</span>
-=======
-        <div class="row align-items-center justify-content-center min-vh-100">
-            <div class="col-lg-8">
-                <div class="hero-content text-center">
-                    <!-- Library Icons Background -->
-                    <div class="position-absolute top-0 start-0 w-100 h-100" style="z-index: 1;">
-                        <i class="bi bi-book position-absolute" style="top: 10%; left: 5%; font-size: 3rem; color: rgba(255,255,255,0.05);"></i>
-                        <i class="bi bi-journal-text position-absolute" style="top: 20%; right: 10%; font-size: 2.5rem; color: rgba(255,255,255,0.04);"></i>
-                        <i class="bi bi-bookmark-star position-absolute" style="top: 60%; left: 8%; font-size: 2rem; color: rgba(255,255,255,0.03);"></i>
-                        <i class="bi bi-journal-bookmark position-absolute" style="top: 70%; right: 15%; font-size: 2.2rem; color: rgba(255,255,255,0.04);"></i>
-                        <i class="bi bi-layers position-absolute" style="top: 40%; left: 12%; font-size: 1.8rem; color: rgba(255,255,255,0.03);"></i>
-                        <i class="bi bi-stack position-absolute" style="top: 80%; left: 20%; font-size: 2.3rem; color: rgba(255,255,255,0.05);"></i>
-                    </div>
-                    
-                    <div class="hero-text position-relative z-10">
-                        <h1 class="display-3 fw-bold mb-4">
-                            Selamat Datang di <span style="color: #F75D34;">PerpusSiswa</span>
-                        </h1>
-                        <p class="lead mb-4">
-                            Jelajahi ribuan koleksi buku digital kami dan temukan pengetahuan tak terbatas di genggaman Anda. Perpustakaan modern untuk generasi pembelajar masa kini.
-                        </p>
-                        <div class="d-flex gap-2 flex-wrap justify-content-center">
-                            <a href="{{ route('login') }}" class="btn btn-primary btn-lg px-4 py-3">
-                                <i class="bi bi-box-arrow-in-right me-2"></i>Masuk Sekarang
-                            </a>
-                            <a href="{{ route('register') }}" class="btn btn-outline-primary btn-lg px-4 py-3">
-                                <i class="bi bi-person-plus me-2"></i>Daftar Baru
-                            </a>
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
                         </div>
                     </div>
                 </div>
@@ -96,21 +73,29 @@
 </section>
 
 <!-- Features Section -->
-<<<<<<< HEAD
-<section id="features" class="section-padding" style="background: white;">
+<section id="features" class="section-padding bg-white">
     <div class="container">
-        <div class="text-center reveal">
+        <div class="text-center reveal mb-5">
             <h2 class="section-title">Kenapa Pilih PerpusSiswa?</h2>
-            <p class="section-subtitle">Satu ekosistem lengkap untuk mendukung kegiatan belajar mengajar yang lebih efisien.</p>
+            <p class="section-subtitle">Satu ekosistem lengkap untuk mendukung kegiatan belajar mengajar yang lebih cerdas dan efisien.</p>
         </div>
-        <div class="row g-4 mt-2">
+        <div class="row g-4">
+            <div class="col-md-4 reveal">
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                    </div>
+                    <h4>Koleksi PDF Digital</h4>
+                    <p class="text-muted">Baca buku langsung di peramban tanpa perlu mengunduh. Akses literasi jadi jauh lebih praktis.</p>
+                </div>
+            </div>
             <div class="col-md-4 reveal">
                 <div class="feature-card">
                     <div class="feature-icon-wrapper">
                         <i class="bi bi-lightning-charge"></i>
                     </div>
                     <h4>Akses Instan</h4>
-                    <p>Cukup satu klik untuk meminjam buku. Tidak perlu antri panjang di loket fisik perpustakaan lagi.</p>
+                    <p class="text-muted">Cari dan pinjam buku hanya dengan satu klik. Tidak perlu lagi antri panjang di loket perpustakaan.</p>
                 </div>
             </div>
             <div class="col-md-4 reveal">
@@ -119,91 +104,116 @@
                         <i class="bi bi-phone-vibrate"></i>
                     </div>
                     <h4>Mobile Friendly</h4>
-                    <p>Tampilan yang sangat responsif di perangkat apa pun, memudahkan siswa belajar dari smartphone.</p>
+                    <p class="text-muted">Antarmuka yang sangat responsif, dirancang agar nyaman digunakan bahkan lewat smartphone.</p>
                 </div>
             </div>
             <div class="col-md-4 reveal">
                 <div class="feature-card">
                     <div class="feature-icon-wrapper">
-                        <i class="bi bi-safe2"></i>
+                        <i class="bi bi-heart"></i>
+                    </div>
+                    <h4>Daftar Favorit</h4>
+                    <p class="text-muted">Simpan buku-buku menarik ke daftar favorit Anda agar lebih mudah dibaca kembali di waktu luang.</p>
+                </div>
+            </div>
+            <div class="col-md-4 reveal">
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <h4>Riwayat Bacaan</h4>
+                    <p class="text-muted">Sistem melacak histori peminjaman secara otomatis untuk memudahkan Anda memantau progres belajar.</p>
+                </div>
+            </div>
+            <div class="col-md-4 reveal">
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="bi bi-shield-check"></i>
                     </div>
                     <h4>Sistem Terintegrasi</h4>
-                    <p>Seluruh riwayat peminjaman, denda, dan inventaris buku tercatat otomatis secara transparan.</p>
-=======
-<section id="features" class="features-section py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Fitur Unggulan Kami</h2>
-            <p class="lead text-muted">Nikmati berbagai kemudahan dalam mengakses koleksi perpustakaan</p>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="feature-card text-center">
-                    <div class="feature-icon mb-3">
-                        <i class="bi bi-book-fill text-primary"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Koleksi Lengkap</h4>
-                    <p class="text-muted">Ratusan judul buku dari berbagai kategori ilmu pengetahuan dan sastra</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card text-center">
-                    <div class="feature-icon mb-3">
-                        <i class="bi bi-clock-history text-success"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Akses 24/7</h4>
-                    <p class="text-muted">Pinjam dan baca buku kapan saja tanpa batasan waktu</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card text-center">
-                    <div class="feature-icon mb-3">
-                        <i class="bi bi-phone text-info"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Mobile Friendly</h4>
-                    <p class="text-muted">Akses perpustakaan dari perangkat apa saja dengan mudah</p>
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
+                    <p class="text-muted">Admin dapat mengelola stok, kategori, dan laporan siswa dalam satu dashboard terpusat yang aman.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<<<<<<< HEAD
-<!-- Popular Books Section (New) -->
+<!-- Popular Books Section -->
 <section id="popular-books" class="section-padding bg-light">
     <div class="container">
         <div class="d-flex justify-content-between align-items-end mb-5 reveal">
             <div>
                 <h2 class="section-title">Koleksi Terpopuler</h2>
-                <p class="section-subtitle mb-0">Buku yang paling sering dibaca minggu ini.</p>
+                <p class="section-subtitle mb-0">Buku yang paling sering dibaca pengunjung minggu ini.</p>
             </div>
-            <a href="{{ route('login') }}" class="btn btn-outline-primary d-none d-md-inline-block">Lihat Semua <i class="bi bi-arrow-right ms-1"></i></a>
+            <a href="{{ route('login') }}" class="btn btn-outline-primary d-none d-md-inline-block rounded-pill">Lihat Semua <i class="bi bi-arrow-right ms-1"></i></a>
         </div>
         <div class="row g-4">
             @php
                 $popularBooks = [
                     ['title' => 'Filosofi Teras', 'author' => 'Henry Manampiring', 'cat' => 'Self Improvement', 'color' => '#fed7aa'],
                     ['title' => 'Atomic Habits', 'author' => 'James Clear', 'cat' => 'Psychology', 'color' => '#fde68a'],
-                    ['title' => 'Laskar Pelangi', 'author' => 'Andrea Hirata', 'cat' => 'Fiction', 'color' => '#bae6fd'],
-                    ['title' => 'Bumi', 'author' => 'Tere Liye', 'cat' => 'Fantasy', 'color' => '#fbcfe8'],
+                    ['title' => 'Laskar Pelangi', 'author' => 'Andrea Hirata', 'cat' => 'Fiksi', 'color' => '#bae6fd'],
+                    ['title' => 'Bumi', 'author' => 'Tere Liye', 'cat' => 'Fantasi', 'color' => '#fbcfe8'],
                 ];
             @endphp
             @foreach($popularBooks as $book)
             <div class="col-sm-6 col-lg-3 reveal">
-                <div class="feature-card p-0 overflow-hidden" style="text-align: left;">
-                    <div style="height: 250px; background: {{ $book['color'] }}; display: flex; align-items: center; justify-content: center; position: relative;">
+                <div class="feature-card p-0 overflow-hidden shadow-sm h-100" style="text-align: left; border: none; border-radius: 1.25rem;">
+                    <div style="height: 220px; background: {{ $book['color'] }}; display: flex; align-items: center; justify-content: center; position: relative; transition: 0.3s; cursor: pointer;" class="book-cover-hover">
                         <i class="bi bi-journal-text" style="font-size: 5rem; color: rgba(0,0,0,0.1);"></i>
-                        <span class="badge bg-white text-dark position-absolute top-0 right-0 m-3 shadow-sm">{{ $book['cat'] }}</span>
+                        <span class="badge bg-white text-dark position-absolute top-0 end-0 m-3 shadow-sm rounded-pill">{{ $book['cat'] }}</span>
                     </div>
-                    <div class="p-4">
-                        <h6 class="fw-bold mb-1 text-truncate">{{ $book['title'] }}</h6>
-                        <p class="text-muted small mb-3">{{ $book['author'] }}</p>
-                        <a href="{{ route('login') }}" class="btn btn-primary w-100 btn-sm">Pinjam Buku</a>
+                    <div class="p-4 bg-white">
+                        <h6 class="fw-bold mb-1 text-truncate" title="{{ $book['title'] }}">{{ $book['title'] }}</h6>
+                        <p class="text-muted small mb-3"><i class="bi bi-pen me-1"></i>{{ $book['author'] }}</p>
+                        <a href="{{ route('login') }}" class="btn btn-primary w-100 btn-sm rounded-pill">Mulai Baca</a>
                     </div>
                 </div>
             </div>
             @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- Features for Roles (New Section) -->
+<section class="section-padding bg-white">
+    <div class="container reveal">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Sistem Fleksibel Sesuai Peran Anda</h2>
+            <p class="section-subtitle">Didesain khusus untuk memenuhi kebutuhan pengelola maupun pembaca.</p>
+        </div>
+        <div class="row align-items-stretch g-4">
+            <div class="col-lg-6">
+                <div class="p-5 rounded-4 h-100 shadow-sm border" style="background-color: var(--bg-body);">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px;">
+                            <i class="bi bi-person-badge fs-4"></i>
+                        </div>
+                        <h3 class="fw-bold mb-0">Untuk Admin</h3>
+                    </div>
+                    <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+                        <li class="d-flex"><i class="bi bi-check-lg text-primary me-3 mt-1 fs-5"></i> <span>Dashboard analitik untuk memantau buku yang paling sering dibaca.</span></li>
+                        <li class="d-flex"><i class="bi bi-check-lg text-primary me-3 mt-1 fs-5"></i> <span>Manajemen inventaris buku digital (unggah PDF & Cover) dengan mudah.</span></li>
+                        <li class="d-flex"><i class="bi bi-check-lg text-primary me-3 mt-1 fs-5"></i> <span>Kelola data siswa, melihat riwayat peminjaman, serta status buku.</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="p-5 rounded-4 h-100 shadow-sm border" style="background-color: var(--bg-body);">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px;">
+                            <i class="bi bi-emoji-smile fs-4"></i>
+                        </div>
+                        <h3 class="fw-bold mb-0">Untuk Siswa</h3>
+                    </div>
+                    <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+                        <li class="d-flex"><i class="bi bi-check-lg text-dark me-3 mt-1 fs-5"></i> <span>Navigasi katalog buku interaktif berbasis kategori.</span></li>
+                        <li class="d-flex"><i class="bi bi-check-lg text-dark me-3 mt-1 fs-5"></i> <span>Membaca file E-Book (PDF) dengan PDF Viewer yang nyaman.</span></li>
+                        <li class="d-flex"><i class="bi bi-check-lg text-dark me-3 mt-1 fs-5"></i> <span>Menyimpan daftar buku favorit & melacak histori bacaan pribadi.</span></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -213,55 +223,27 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <span class="stat-number">25K+</span>
+                <div class="stat-card shadow">
+                    <span class="stat-number">500+</span>
                     <span class="stat-label">Total Buku</span>
                 </div>
             </div>
             <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <span class="stat-number">4.8K</span>
+                <div class="stat-card shadow">
+                    <span class="stat-number">1.2K</span>
                     <span class="stat-label">Siswa Aktif</span>
                 </div>
             </div>
             <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <span class="stat-number">12K</span>
-                    <span class="stat-label">Buku Dipinjam</span>
+                <div class="stat-card shadow">
+                    <span class="stat-number">15+</span>
+                    <span class="stat-label">Kategori</span>
                 </div>
             </div>
             <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <span class="stat-number">98%</span>
-                    <span class="stat-label">Kepuasan</span>
-=======
-<!-- Statistics Section -->
-<section class="stats-section py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 col-sm-6 col-12">
-                <div class="stat-item text-center">
-                    <div class="stat-number text-white fw-bold display-4"></div>
-                    <div class="stat-label text-white-50"></div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-12">
-                <div class="stat-item text-center">
-                    <div class="stat-number text-white fw-bold display-4"></div>
-                    <div class="stat-label text-white-50"></div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-12">
-                <div class="stat-item text-center">
-                    <div class="stat-number text-white fw-bold display-4"></div>
-                    <div class="stat-label text-white-50"></div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-12">
-                <div class="stat-item text-center">
-                    <div class="stat-number text-white fw-bold display-4"></div>
-                    <div class="stat-label text-white-50"></div>
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
+                <div class="stat-card shadow">
+                    <span class="stat-number">10K+</span>
+                    <span class="stat-label">Total Baca</span>
                 </div>
             </div>
         </div>
@@ -269,75 +251,61 @@
 </section>
 
 <!-- How It Works Section -->
-<<<<<<< HEAD
-<section id="how-it-works" class="section-padding">
+<section id="how-it-works" class="section-padding bg-light">
     <div class="container">
         <div class="text-center mb-5 reveal">
-            <h2 class="section-title">Cara Kerja Sistem</h2>
-            <p class="section-subtitle">Tiga langkah mudah untuk mulai menjelajahi jendela dunia.</p>
+            <h2 class="section-title">Bagaimana Cara Memilih Buku Anda?</h2>
+            <p class="section-subtitle">Tiga langkah kilat untuk mulai menjelajahi jendela dunia.</p>
         </div>
         <div class="row g-4">
             <div class="col-md-4 reveal">
-                <div class="step-card">
-                    <div class="step-badge">01</div>
-                    <div class="step-icon">
-                        <i class="bi bi-box-arrow-in-right"></i>
+                <div class="step-card shadow-sm">
+                    <div class="step-badge text-primary opacity-25">01</div>
+                    <div class="step-icon mb-4 text-primary bg-primary-light rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                        <i class="bi bi-door-open"></i>
                     </div>
-                    <h5 class="fw-bold mb-3">Login Akun</h5>
-                    <p class="text-muted mb-0">Masuk menggunakan akun NISN yang telah didaftarkan oleh admin sekolah Anda.</p>
+                    <h4 class="fw-bold mb-3">Akses Akun</h4>
+                    <p class="text-muted mb-0">Masuk menggunakan email atau NISN yang telah diregistrasi. Semua riwayat akan terhubung dengan profil Anda.</p>
                 </div>
             </div>
             <div class="col-md-4 reveal">
-                <div class="step-card">
-                    <div class="step-badge">02</div>
-                    <div class="step-icon">
-                        <i class="bi bi-search-heart"></i>
+                <div class="step-card shadow-sm">
+                    <div class="step-badge text-primary opacity-25">02</div>
+                    <div class="step-icon mb-4 text-primary bg-primary-light rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                        <i class="bi bi-search"></i>
                     </div>
-                    <h5 class="fw-bold mb-3">Cari Buku</h5>
-                    <p class="text-muted mb-0">Temukan buku favorit Anda melalui katalog yang lengkap dan kategori yang teratur.</p>
+                    <h4 class="fw-bold mb-3">Eksplorasi Katalog</h4>
+                    <p class="text-muted mb-0">Cari buku melalui kolom pencarian atau saring menggunakan kategori pintar. Temukan literasi yang cocok dengan Anda.</p>
                 </div>
             </div>
             <div class="col-md-4 reveal">
-                <div class="step-card">
-                    <div class="step-badge">03</div>
-                    <div class="step-icon">
-                        <i class="bi bi-qrcode-scan"></i>
+                <div class="step-card shadow-sm">
+                    <div class="step-badge text-primary opacity-25">03</div>
+                    <div class="step-icon mb-4 text-primary bg-primary-light rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                        <i class="bi bi-book"></i>
                     </div>
-                    <h5 class="fw-bold mb-3">Ambil & Baca</h5>
-                    <p class="text-muted mb-0">Setelah reservasi, tunjukkan QR Code ke petugas atau langsung baca E-Book jika tersedia.</p>
+                    <h4 class="fw-bold mb-3">Nikmati Bacaan</h4>
+                    <p class="text-muted mb-0">Klik tombol "Mulai Baca". Buku otomatis akan dipinjam, masuk ke riwayat, dan siap dibaca full-screen.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Testimonials Section (New) -->
+<!-- Testimonials Section -->
 <section class="section-padding bg-white">
     <div class="container">
         <div class="text-center mb-5 reveal">
-            <h2 class="section-title">Apa Kata Mereka?</h2>
-            <p class="section-subtitle">Pengalaman nyata dari siswa dan guru pengguna PerpusSiswa.</p>
+            <h2 class="section-title">Apa Kata Pengguna Kami?</h2>
+            <p class="section-subtitle">Pengalaman nyata dari sivitas akademika pengguna produk inovatif ini.</p>
         </div>
         <div class="row g-4">
             <div class="col-md-4 reveal">
-                <div class="feature-card" style="text-align: left; padding: 2.5rem;">
+                <div class="feature-card shadow-sm" style="text-align: left; padding: 2.5rem; border: none; background: #fdfdfd;">
                     <i class="bi bi-quote text-primary" style="font-size: 2.5rem; opacity: 0.3;"></i>
-                    <p class="mb-4 italic">"Sekarang pinjam buku nggak perlu ribet bawa kartu fisik. Semuanya beres dalam satu genggaman HP!"</p>
-                    <div class="d-flex align-items-center">
-                        <div class="rounded-circle bg-primary-light me-3" style="width: 45px; height: 45px;"></div>
-                        <div>
-                            <h6 class="mb-0 fw-bold">Andi Pratama</h6>
-                            <small class="text-muted">Siswa Kelas XII</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 reveal">
-                <div class="feature-card" style="text-align: left; padding: 2.5rem;">
-                    <i class="bi bi-quote text-primary" style="font-size: 2.5rem; opacity: 0.3;"></i>
-                    <p class="mb-4 italic">"Sistemnya sangat membantu untuk mencari referensi tugas sekolah. Sangat direkomendasikan!"</p>
-                    <div class="d-flex align-items-center">
-                        <div class="rounded-circle bg-warning bg-opacity-10 me-3" style="width: 45px; height: 45px;"></div>
+                    <p class="mb-4 fst-italic text-secondary">"Semenjak ada PerpusSiswa, anak-anak jadi lebih sering membaca. Mereka nggak perlu repot ke ruangan, cukup dari tablet masing-masing."</p>
+                    <div class="d-flex align-items-center mt-auto">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3 fw-bold shadow-sm" style="width: 45px; height: 45px;">SI</div>
                         <div>
                             <h6 class="mb-0 fw-bold">Siti Aisyah</h6>
                             <small class="text-muted">Guru Literasi</small>
@@ -346,14 +314,27 @@
                 </div>
             </div>
             <div class="col-md-4 reveal">
-                <div class="feature-card" style="text-align: left; padding: 2.5rem;">
+                <div class="feature-card shadow-sm" style="text-align: left; padding: 2.5rem; border: none; background: #fdfdfd;">
                     <i class="bi bi-quote text-primary" style="font-size: 2.5rem; opacity: 0.3;"></i>
-                    <p class="mb-4 italic">"Fitur notifikasinya oke banget, jadi inget kalau sudah mendekati waktu pengembalian buku."</p>
-                    <div class="d-flex align-items-center">
-                        <div class="rounded-circle bg-info bg-opacity-10 me-3" style="width: 45px; height: 45px;"></div>
+                    <p class="mb-4 fst-italic text-secondary">"Aplikasinya keren dan gampang dipakai. Fitur favorit ngebantu banget biar nggak lupa buku yang mau dibaca pas weekend."</p>
+                    <div class="d-flex align-items-center mt-auto">
+                        <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center me-3 fw-bold shadow-sm" style="width: 45px; height: 45px;">AP</div>
                         <div>
-                            <h6 class="mb-0 fw-bold">Budi Santoso</h6>
-                            <small class="text-muted">Siswa Kelas XI</small>
+                            <h6 class="mb-0 fw-bold">Andi Pratama</h6>
+                            <small class="text-muted">Siswa Kelas XII</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 reveal">
+                <div class="feature-card shadow-sm" style="text-align: left; padding: 2.5rem; border: none; background: #fdfdfd;">
+                    <i class="bi bi-quote text-primary" style="font-size: 2.5rem; opacity: 0.3;"></i>
+                    <p class="mb-4 fst-italic text-secondary">"Sangat membantu manajemen perpustakaan. Panel adminnya simpel, saya bisa memantau tren buku anak-anak dengan sangat akurat."</p>
+                    <div class="d-flex align-items-center mt-auto">
+                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-3 fw-bold shadow-sm" style="width: 45px; height: 45px;">BR</div>
+                        <div>
+                            <h6 class="mb-0 fw-bold">Budi Raharjo</h6>
+                            <small class="text-muted">Admin Perpustakaan</small>
                         </div>
                     </div>
                 </div>
@@ -362,86 +343,71 @@
     </div>
 </section>
 
-<!-- FAQ Section (New) -->
+<!-- FAQ Section -->
 <section class="section-padding bg-light">
     <div class="container">
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-lg-6 reveal">
                 <h2 class="section-title">Pertanyaan Umum</h2>
-                <p class="section-subtitle ms-0">Kami merangkum beberapa hal yang sering ditanyakan pengguna.</p>
-                <div class="accordion accordion-flush" id="faqAccordion">
+                <p class="section-subtitle ms-0">Kami merangkum keraguan yang paling sering ditanyakan.</p>
+                
+                <div class="accordion accordion-flush mt-4" id="faqAccordion">
                     <div class="accordion-item bg-transparent border-0 mb-3">
                         <h2 class="accordion-header">
-                            <button class="accordion-button collapsed rounded bg-white shadow-sm fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            <button class="accordion-button collapsed rounded bg-white shadow-sm fw-bold border" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
                                 Bagaimana cara mendaftar akun?
                             </button>
                         </h2>
                         <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-muted"> Akun siswa biasanya didaftarkan secara kolektif oleh pihak sekolah. Gunakan alamat email aktif Anda untuk masuk pertama kali. </div>
+                            <div class="accordion-body text-muted bg-transparent pt-3 pb-1"> Akun siswa biasanya didaftarkan oleh admin. Gunakan alamat email aktif Anda di halaman <a href="{{ route('register') }}" class="text-primary fw-bold text-decoration-none">Daftar</a> bila diperbolehkan registrasi mandiri. </div>
                         </div>
                     </div>
+                    
                     <div class="accordion-item bg-transparent border-0 mb-3">
                         <h2 class="accordion-header">
-                            <button class="accordion-button collapsed rounded bg-white shadow-sm fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            <button class="accordion-button collapsed rounded bg-white shadow-sm fw-bold border" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                Apakah bisa dibaca tanpa koneksi internet?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted bg-transparent pt-3 pb-1"> Saat ini belum mendukung mode luring (offline). Sistem pemutar PDF digital kami membutuhkan koneksi internet minimal agar progress riwayat baca selalu tersinkronisasi. </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item bg-transparent border-0 mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed rounded bg-white shadow-sm fw-bold border" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
                                 Berapa lama durasi peminjaman buku?
                             </button>
                         </h2>
                         <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-muted"> Standar durasi peminjaman adalah 7 hari kerja. Anda dapat melakukan perpanjangan satu kali melalui dashboard siswa. </div>
+                            <div class="accordion-body text-muted bg-transparent pt-3 pb-1"> Karena buku berbentuk digital (E-Book), pengguna tidak dibatasi tenggat denda. Buku akan tercatat dipinjam selama masih Anda baca atau masuk di Favorit. </div>
                         </div>
                     </div>
+                    
                     <div class="accordion-item bg-transparent border-0">
                         <h2 class="accordion-header">
-                            <button class="accordion-button collapsed rounded bg-white shadow-sm fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                Apa yang terjadi jika terlambat mengembalikan?
+                            <button class="accordion-button collapsed rounded bg-white shadow-sm fw-bold border" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Bagaimana cara mencari buku tertentu?
                             </button>
                         </h2>
                         <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-muted"> Keterlambatan akan dikenakan denda harian sesuai kebijakan sekolah yang berlaku. Riwayat denda dapat dilihat pada menu dashboard. </div>
+                            <div class="accordion-body text-muted bg-transparent pt-3 pb-1"> Setelah login, buka menu Katalog Buku. Anda bisa mengetik judul atau penulis langsung, atau mengklik filter label Kategori di sisi kiri halaman. </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1 d-none d-lg-block reveal">
-                <div class="p-5 bg-primary-light rounded-4 h-100 d-flex flex-column justify-content-center text-center">
-                    <i class="bi bi-chat-dots-fill text-primary mb-4" style="font-size: 3.5rem;"></i>
-                    <h4 class="fw-bold">Masih bingung?</h4>
-                    <p class="text-muted">Tim petugas perpustakaan kami siap membantu Anda di sekolah.</p>
-                    <a href="mailto:support@library.edu" class="btn btn-primary mt-3">Hubungi CS Perpustakaan</a>
-=======
-<section id="how-it-works" class="how-it-works py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-3">Cara Kerja</h2>
-            <p class="lead text-muted">Mulai perjalanan literasi Anda dalam 3 langkah mudah</p>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="step-card text-center">
-                    <div class="step-icon mb-3">
-                        <i class="bi bi-person-plus-fill text-primary"></i>
+                <div class="p-5 bg-primary rounded-4 h-100 d-flex flex-column justify-content-center text-center text-white position-relative overflow-hidden shadow-lg">
+                    <div class="position-absolute top-0 end-0 p-4 opacity-25">
+                        <i class="bi bi-question-circle-fill text-white shadow-sm" style="font-size: 15rem;"></i>
                     </div>
-                    <h4 class="fw-bold mb-3">Daftar Akun</h4>
-                    <p class="text-muted">Buat akun gratis dan dapatkan akses ke seluruh koleksi perpustakaan</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="step-card text-center">
-                    <div class="step-icon mb-3">
-                        <i class="bi bi-search text-success"></i>
+                    <div class="position-relative z-10">
+                        <i class="bi bi-headset mb-4 d-block" style="font-size: 3.5rem;"></i>
+                        <h4 class="fw-bold text-white mb-3">Masih bingung?</h4>
+                        <p class="text-white-50 mb-4">Tim admin perpustakaan kami selalu terbuka dan menantikan sapaan Anda.</p>
+                        <a href="mailto:support@sekolah.sch.id" class="btn btn-light text-primary rounded-pill fw-bold px-4">Hubungi Support</a>
                     </div>
-                    <h4 class="fw-bold mb-3">Cari Buku</h4>
-                    <p class="text-muted">Temukan buku yang Anda inginkan dengan sistem pencarian yang mudah</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="step-card text-center">
-                    <div class="step-icon mb-3">
-                        <i class="bi bi-bookmark-check-fill text-info"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Pinjam & Baca</h4>
-                    <p class="text-muted">Pinjam buku dan nikmati membaca kapan saja dimana saja</p>
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
                 </div>
             </div>
         </div>
@@ -449,79 +415,67 @@
 </section>
 
 <!-- CTA Section -->
-<<<<<<< HEAD
-<section class="cta-section reveal">
-    <div class="container reveal">
-        <div class="cta-content">
-            <h2>Mulai Petualangan Literasi Anda</h2>
-            <p>Ribuan koleksi buku menunggu untuk dibuka. Jadilah bagian dari komunitasi pembaca aktif.</p>
-            <div class="d-flex gap-3 justify-content-center flex-wrap">
-                <a href="{{ route('login') }}" class="btn btn-light-custom">Buka Dashboard</a>
-                <a href="{{ route('register') }}" class="btn btn-outline-light px-5 py-3 rounded-pill text-white" style="border-width: 2px;">Daftar Akun Baru</a>
-=======
-<section class="cta-section py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-4 fw-bold mb-4 text-white">Siap Memulai Perjalanan Literasi Anda?</h2>
-                <p class="lead mb-4 text-white-50">Bergabunglah dengan ribuan siswa yang telah menikmati kemudahan akses perpustakaan digital</p>
-                <a href="{{ route('register') }}" class="btn btn-light btn-lg px-5 py-3">
-                    <i class="bi bi-rocket-takeoff me-2"></i>Mulai Sekarang
-                </a>
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
-            </div>
+<section class="cta-section reveal py-5" style="background: var(--gradient-primary); position: relative; overflow: hidden;">
+    <div class="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-10"></div>
+    <div class="container position-relative z-10 text-center py-5">
+        <h2 class="display-5 fw-bold text-white mb-3">Bergabunglah, Mulai Perjalanan Literasi Anda</h2>
+        <p class="lead text-white-50 mb-5 mx-auto" style="max-width: 600px;">Akses tak terbatas ke samudra ilmu pengetahuan. Tingkatkan minat baca Anda dengan platform revolusioner kami.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{{ route('login') }}" class="btn btn-light text-primary px-5 py-3 rounded-pill fw-bold shadow">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Masuk Sekarang
+            </a>
+            <a href="{{ route('register') }}" class="btn btn-outline-light px-5 py-3 rounded-pill text-white fw-bold" style="border-width: 2px;">
+                Daftar Akun Baru
+            </a>
         </div>
     </div>
 </section>
-<<<<<<< HEAD
 
 <!-- Enhanced Footer -->
 <footer class="footer">
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-4">
-                <div class="footer-brand">
-                    <i class="bi bi-journal-bookmark-fill text-primary" style="margin-right: 10px;"></i>
-                    PerpusSiswa
+                <div class="footer-logo d-flex align-items-center mb-3">
+                    <i class="bi bi-book-half text-primary me-2 shadow-sm"></i>
+                    <span class="fs-4">PerpusSiswa</span>
                 </div>
-                <p class="small">Sistem manajemen perpustakaan sekolah modern yang dirancang untuk memperluas jangkauan literasi dunia pendidikan di era digital.</p>
-                <div class="social-links d-flex gap-2">
-                    <a href="#" class="btn btn-sm btn-outline-primary rounded-circle" style="width: 35px; height: 35px; padding: 0.4rem;"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="btn btn-sm btn-outline-primary rounded-circle" style="width: 35px; height: 35px; padding: 0.4rem;"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="btn btn-sm btn-outline-primary rounded-circle" style="width: 35px; height: 35px; padding: 0.4rem;"><i class="bi bi-twitter-x"></i></a>
+                <p class="small text-muted pe-md-4">Sistem manajemen perpustakaan sekolah modern yang dirancang untuk memperluas jangkauan literasi dunia pendidikan di era digital, di mana saja, kapan saja.</p>
+                <div class="social-links d-flex gap-2 mt-4">
+                    <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;"><i class="bi bi-twitter-x"></i></a>
                 </div>
             </div>
-            <div class="col-sm-6 col-lg-2 offset-lg-2">
-                <h6 class="fw-bold text-dark mb-4">Navigasi</h6>
-                <ul class="list-unstyled">
-                    <li><a href="#home" class="text-decoration-none text-muted small">Beranda</a></li>
-                    <li><a href="#features" class="text-decoration-none text-muted small">Fitur</a></li>
-                    <li><a href="#popular-books" class="text-decoration-none text-muted small">Koleksi</a></li>
-                    <li><a href="#how-it-works" class="text-decoration-none text-muted small">Cara Kerja</a></li>
+            <div class="col-sm-6 col-lg-2 offset-lg-2 pt-2">
+                <h6 class="fw-bold text-dark mb-4 text-uppercase fw-bolder" style="letter-spacing: 1px;">Navigasi Utama</h6>
+                <ul class="footer-links list-unstyled">
+                    <li><a href="#home">Beranda Area</a></li>
+                    <li><a href="#features">Fitur Unggulan</a></li>
+                    <li><a href="#popular-books">Katalog Populer</a></li>
+                    <li><a href="#how-it-works">Panduan Singkat</a></li>
                 </ul>
             </div>
-            <div class="col-sm-6 col-lg-2">
-                <h6 class="fw-bold text-dark mb-4">Dukungan</h6>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-decoration-none text-muted small">Pusat Bantuan</a></li>
-                    <li><a href="#" class="text-decoration-none text-muted small">Panduan Siswa</a></li>
-                    <li><a href="#" class="text-decoration-none text-muted small">Kontak Kami</a></li>
-                    <li><a href="#" class="text-decoration-none text-muted small">Kebijakan Privasi</a></li>
+            <div class="col-sm-6 col-lg-2 pt-2">
+                <h6 class="fw-bold text-dark mb-4 text-uppercase fw-bolder" style="letter-spacing: 1px;">Dukungan Sitem</h6>
+                <ul class="footer-links list-unstyled">
+                    <li><a href="#">Pusat Resolusi</a></li>
+                    <li><a href="#">Pedoman Mutu</a></li>
+                    <li><a href="#">Hubungi Admin</a></li>
+                    <li><a href="#">Syarat & Ketentuan</a></li>
                 </ul>
             </div>
-            <div class="col-lg-2">
-                <h6 class="fw-bold text-dark mb-4">Kontak</h6>
-                <p class="small mb-1"><i class="bi bi-geo-alt me-2"></i>Jl. Edukasi No. 42</p>
-                <p class="small mb-1"><i class="bi bi-envelope me-2"></i>perpus@sekolah.sch.id</p>
-                <p class="small"><i class="bi bi-telephone me-2"></i>(021) 1234567</p>
+            <div class="col-lg-2 pt-2">
+                <h6 class="fw-bold text-dark mb-4 text-uppercase fw-bolder" style="letter-spacing: 1px;">Kontak Kami</h6>
+                <p class="small mb-2 text-muted"><i class="bi bi-geo-alt-fill text-primary me-2"></i>Jl. Edukasi No. 42</p>
+                <p class="small mb-2 text-muted"><i class="bi bi-envelope-fill text-primary me-2"></i>hello@sekolah.sch.id</p>
+                <p class="small text-muted"><i class="bi bi-telephone-fill text-primary me-2"></i>(021) 1234567</p>
             </div>
         </div>
-        <hr class="my-5 opacity-10">
+        <hr class="mt-5 mb-4 opacity-10">
         <div class="text-center">
-            <p class="small mb-0">&copy; {{ date('Y') }} PerpusSiswa Digital. Built with <i class="bi bi-heart-fill text-danger mx-1"></i> for better literacy.</p>
+            <p class="small text-muted mb-0 fw-semibold">&copy; {{ date('Y') }} PerpusSiswa Digital Literacy. Dibuat dengan <i class="bi bi-heart-fill text-danger mx-1"></i> untuk masa depan.</p>
         </div>
     </div>
 </footer>
-=======
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
 @endsection

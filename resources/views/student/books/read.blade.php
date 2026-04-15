@@ -121,10 +121,12 @@
 
 <style>
 /* Disable User Selection globally */
-body {
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
+body, body * {
+    -webkit-user-select: none !important; /* Safari */
+    -moz-user-select: none !important; /* Firefox */
+    -ms-user-select: none !important; /* IE 10 and IE 11 */
+    user-select: none !important; /* Standard syntax */
+    -webkit-user-drag: none !important;
 }
 
 /* Make iframe hide its own scrollbar tracks visually if supported */
@@ -138,6 +140,14 @@ iframe::-webkit-scrollbar {
 <script>
     // Konfigurasi Worker PDF.js
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    // Immediate extreme anti right-click and selection (sebelum DOM Loaded)
+    document.oncontextmenu = new Function("return false;");
+    document.onselectstart = new Function("return false;");
+    document.ondragstart = new Function("return false;");
+    window.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    }, { capture: true });
 
 document.addEventListener('DOMContentLoaded', function() {
     const overlay = document.getElementById('screenshotOverlay');

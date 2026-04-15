@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Auth') - PerpusSiswa</title>
+    <title>@yield('title', 'Auth') - BacaKita</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +51,7 @@
         
         <div class="relative z-10 p-16 flex flex-col justify-between h-full w-full">
             <a href="{{ url('/') }}" class="text-3xl font-extrabold tracking-tight text-white flex items-center">
-                <i class="bi bi-book-half mr-3"></i> PerpusSiswa
+                <i class="bi bi-book-half mr-3"></i> BacaKita
             </a>
             
             <div class="mb-12">
@@ -79,7 +79,7 @@
     <!-- Right Form Side -->
     <div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 lg:p-24 bg-white relative">
         <a href="{{ url('/') }}" class="lg:hidden absolute top-8 left-8 text-2xl font-black text-slate-900 flex items-center tracking-tight">
-            <i class="bi bi-book-half mr-2"></i> PerpusSiswa
+            <i class="bi bi-book-half mr-2"></i> BacaKita
         </a>
 
         <div class="w-full max-w-md relative z-10">

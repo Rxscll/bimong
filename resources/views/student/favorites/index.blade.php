@@ -42,7 +42,7 @@
                 <div class="p-6 flex flex-col flex-grow relative z-10 bg-white">
                     <div class="mb-3">
                         <span class="px-2.5 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-200">
-                            {{ $favorite->book->category->nama ?? 'Tak Berkategori' }}
+                            {{ $favorite->book->category->name ?? 'Tak Berkategori' }}
                         </span>
                     </div>
                     

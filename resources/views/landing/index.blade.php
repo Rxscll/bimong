@@ -1,6 +1,6 @@
 @extends('layouts.landing')
 
-@section('title', 'PerpusSiswa - Perpustakaan Digital Sekolah')
+@section('title', 'BacaKita - Perpustakaan Digital Sekolah')
 
 @section('content')
 
@@ -24,7 +24,7 @@
                 </p>
                 <div class="flex flex-wrap items-center gap-4">
                     <a href="{{ route('login') }}" class="px-8 py-4 rounded-full bg-slate-900 text-white font-bold text-lg hover:bg-slate-800 transition-all duration-300 shadow-xl shadow-slate-900/20">
-                        Login Siswa
+                        Login
                     </a>
                     <a href="{{ route('student.dashboard') }}" class="px-8 py-4 rounded-full bg-transparent border-2 border-slate-200 text-slate-900 font-bold text-lg hover:border-slate-900 transition-all duration-300">
                         Jelajah Sebagai Tamu

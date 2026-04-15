@@ -90,7 +90,7 @@
             <div class="bg-slate-900 w-10 h-10 rounded-xl flex items-center justify-center shadow-md">
                 <i class="bi bi-book-half text-white text-xl"></i>
             </div>
-            <span class="ml-4 font-extrabold text-xl tracking-tight hidden lg:block text-slate-900">PerpusSiswa</span>
+            <span class="ml-4 font-extrabold text-xl tracking-tight hidden lg:block text-slate-900">BacaKita</span>
         </div>
 
         <!-- Navigation Links -->

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'PerpusSiswa - Perpustakaan Digital Sekolah')</title>
+    <title>@yield('title', 'BacaKita - Perpustakaan Digital Sekolah')</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -66,7 +66,7 @@
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 px-4 md:px-8 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="{{ url('/') }}" class="text-2xl font-extrabold tracking-tight text-slate-900 flex items-center">
-                <i class="bi bi-book-half mr-3"></i> PerpusSiswa
+                <i class="bi bi-book-half mr-3"></i> BacaKita
             </a>
             
             <div class="hidden md:flex space-x-8 items-center">
@@ -77,7 +77,7 @@
 
             <div class="hidden md:flex space-x-6 items-center">
                 <a href="{{ route('student.dashboard') }}" class="text-sm font-semibold text-slate-900 hover:text-slate-600 transition">Akses Tamu</a>
-                <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-full bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 transition shadow-sm">Login Siswa</a>
+                <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-full bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 transition shadow-sm">Login</a>
             </div>
 
             <!-- Mobile menu button -->
@@ -96,7 +96,7 @@
     <footer class="bg-surface border-t border-accent py-16 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
             <div class="col-span-1 md:col-span-1">
-                <a href="#" class="text-xl font-extrabold tracking-tight text-slate-900 mb-4 block">PerpusSiswa</a>
+                <a href="#" class="text-xl font-extrabold tracking-tight text-slate-900 mb-4 block">BacaKita</a>
                 <p class="text-sm text-slate-500 leading-relaxed">
                     Sistem manajemen perpustakaan modern, dirancang untuk memudahkan literasi ekosistem pendidikan sekolah.
                 </p>
@@ -130,7 +130,7 @@
             </div>
         </div>
         <div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-accent text-center text-sm text-slate-400">
-            &copy; {{ date('Y') }} PerpusSiswa Digital Literacy. All rights reserved.
+            &copy; {{ date('Y') }} BacaKita Digital Literacy. All rights reserved.
         </div>
     </footer>
 

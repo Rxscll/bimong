@@ -1,100 +1,111 @@
-@extends('layouts.admin')
+@extends('layouts.admin-theme')
 
-@section('title', 'Edit Siswa')
+@section('title', 'Edit Otorisasi ' . $student->name)
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="card p-4">
-                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-                    <div>
-                        <h4 class="fw-bold mb-1">Edit Data Siswa: {{ $student->name }}</h4>
-                        <p class="text-muted small mb-0">Perbarui informasi anggota perpustakaan</p>
-                    </div>
-                    <a href="{{ route('admin.students.index') }}"
-                        class="btn btn-light btn-sm d-flex align-items-center border">
-                        <i class="bi bi-arrow-left me-2"></i> Kembali
-                    </a>
+<div class="max-w-4xl mx-auto py-10 px-4 sm:px-6">
+    <div class="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Profil Preferensi</h1>
+            <p class="text-slate-500 font-medium mt-2">Mengedit metainformasi & otorisasi profil pengguna.</p>
+        </div>
+        <a href="{{ route('admin.students.index') }}" class="inline-flex px-5 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-50 hover:text-slate-900 font-bold shadow-sm transition-all items-center gap-2 w-max">
+            <i class="bi bi-arrow-left"></i> Kembali
+        </a>
+    </div>
+
+    <div class="glass-panel p-8 sm:p-10 rounded-[2.5rem] bg-white border border-slate-200 shadow-sm relative">
+        <form action="{{ route('admin.students.update', $student->id) }}" method="POST" class="space-y-6">
+            @csrf
+            @method('PUT')
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Name -->
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                        Nama Lengkap <span class="text-rose-500">*</span>
+                    </label>
+                    <input type="text" name="name" required
+                           class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all shadow-sm"
+                           value="{{ old('name', $student->name) }}">
+                    @error('name')
+                        <p class="mt-2 text-xs font-bold text-rose-500"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</p>
+                    @enderror
+                </div>
+                <!-- Email -->
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                        Alamat Email Aktif <span class="text-rose-500">*</span>
+                    </label>
+                    <input type="email" name="email" required 
+                           class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all shadow-sm"
+                           value="{{ old('email', $student->email) }}">
+                    @error('email')
+                        <p class="mt-2 text-xs font-bold text-rose-500"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <form action="{{ route('admin.students.update', $student->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Nama Lengkap</label>
-                                <input type="text" class="form-control rounded-3 @error('name') is-invalid @enderror"
-                                    name="name" value="{{ old('name', $student->name) }}" required>
-                                @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Alamat Email</label>
-                                <input type="email" class="form-control rounded-3 @error('email') is-invalid @enderror"
-                                    name="email" value="{{ old('email', $student->email) }}" required>
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
+                <!-- NIS -->
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                        Nomor Induk Siswa (NIS)
+                    </label>
+                    <input type="text" name="nis"
+                           class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all shadow-sm"
+                           value="{{ old('nis', $student->nis) }}">
+                    @error('nis')
+                        <p class="mt-2 text-xs font-bold text-rose-500"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</p>
+                    @enderror
+                </div>
+                <!-- Kelas -->
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                        Kelas Aktif
+                    </label>
+                    <input type="text" name="kelas"
+                           class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all shadow-sm"
+                           value="{{ old('kelas', $student->kelas) }}">
+                    @error('kelas')
+                        <p class="mt-2 text-xs font-bold text-rose-500"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</p>
+                    @enderror
+                </div>
 
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">NIS</label>
-                                <input type="text" class="form-control rounded-3 @error('nis') is-invalid @enderror"
-                                    name="nis" value="{{ old('nis', $student->nis) }}">
-                                @error('nis')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Kelas</label>
-                                <input type="text" class="form-control rounded-3 @error('kelas') is-invalid @enderror"
-                                    name="kelas" value="{{ old('kelas', $student->kelas) }}">
-                                @error('kelas')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
+                <div class="md:col-span-2 mt-2 pt-6 border-t border-slate-100">
+                    <h3 class="text-sm font-bold text-slate-900 mb-1"><i class="bi bi-shield-lock text-slate-500 mr-2"></i> Kredensial Akses</h3>
+                    <p class="text-[11px] font-medium text-slate-500 mb-4">Abaikan baris berikut ini jika Anda tidak ingin melakukan modifikasi pada kata sandi pengguna lama.</p>
+                </div>
 
-                        <div class="col-12 mt-4 pt-3 border-top">
-                            <h6 class="fw-bold mb-3 text-secondary">Ubah Kata Sandi (Opsional)</h6>
-                            <p class="text-muted small mb-3">Kosongkan jika tidak ingin mengubah kata sandi.</p>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Kata Sandi Baru</label>
-                                <input type="password"
-                                    class="form-control rounded-3 @error('password') is-invalid @enderror" name="password">
-                                @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold small text-muted text-uppercase">Konfirmasi Kata Sandi
-                                    Baru</label>
-                                <input type="password" class="form-control rounded-3" name="password_confirmation">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 pt-3 border-top">
-                        <button type="submit" class="btn btn-primary px-5 py-2">
-                            <i class="bi bi-save me-2"></i> Perbarui Data
-                        </button>
-                        <a href="{{ route('admin.students.index') }}" class="btn btn-light px-4 py-2 ms-2 border">Batal</a>
-                    </div>
-                </form>
+                <!-- Password -->
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                        Kata Sandi Baru (Opsional)
+                    </label>
+                    <input type="password" name="password" placeholder="Kosongkan jika tidak diganti"
+                           class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all shadow-sm">
+                    @error('password')
+                        <p class="mt-2 text-xs font-bold text-rose-500"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</p>
+                    @enderror
+                </div>
+                <!-- Password Confirm -->
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                        Konfirmasi Ulang Sandi
+                    </label>
+                    <input type="password" name="password_confirmation" placeholder="Tulis berulang di sini"
+                           class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all shadow-sm">
+                </div>
             </div>
-        </div>
+
+            <!-- Submit Strip -->
+            <div class="mt-10 pt-6 border-t border-slate-100 flex items-center justify-end gap-3">
+                <a href="{{ route('admin.students.index') }}" class="px-6 py-3.5 bg-white border border-slate-200 text-slate-500 rounded-xl hover:bg-slate-50 hover:text-slate-900 font-bold transition-all shadow-sm">
+                    Batalkan Operasi
+                </a>
+                <button type="submit" class="px-8 py-3.5 bg-amber-400 text-amber-900 rounded-xl shadow-lg shadow-amber-400/20 hover:bg-amber-500 transition-all font-bold flex items-center justify-center gap-2">
+                    <i class="bi bi-pencil-square mr-1"></i> Perbarui Catatan Profil
+                </button>
+            </div>
+        </form>
     </div>
+</div>
 @endsection

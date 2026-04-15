@@ -1,68 +1,91 @@
-@extends('layouts.student')
+@extends('layouts.student-theme')
 
 @section('title', 'Riwayat Membaca')
 
 @section('content')
-<div class="container-fluid p-6">
+<div class="max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-900">Riwayat Membaca</h1>
-        <p class="text-gray-600 mt-1">Histori buku yang telah Anda baca</p>
+    <div class="mb-12 pl-4 lg:pl-0">
+        <p class="text-slate-500 text-sm font-bold tracking-widest uppercase mb-2">Aktivitas</p>
+        <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">Riwayat <span class="text-slate-500">Membaca</span></h1>
+        <p class="text-slate-600 font-medium mt-3 text-lg">Histori buku dan catatan bacaan Anda.</p>
     </div>
 
-    <!-- Reading History -->
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <!-- Reading History List -->
+    <div class="glass-panel overflow-hidden rounded-[2rem] bg-white border border-slate-200">
         <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead class="bg-gray-50 border-b border-gray-200">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cover</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Judul Buku</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Penulis</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Halaman Terakhir</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Baca</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 uppercase tracking-wider text-[10px] sm:text-xs">
+                        <th class="px-8 py-5 text-slate-500 font-bold">Cover</th>
+                        <th class="px-8 py-5 text-slate-500 font-bold">Identitas Buku</th>
+                        <th class="px-8 py-5 text-slate-500 font-bold">Informasi</th>
+                        <th class="px-8 py-5 text-slate-500 font-bold">Waktu Akses</th>
+                        <th class="px-8 py-5 text-slate-500 font-bold text-center">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-slate-100 border-b border-slate-200">
                     @forelse($readingHistories as $history)
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <img src="{{ $history->book->cover_url }}" alt="{{ $history->book->judul }}" 
-                                     class="h-12 w-10 object-cover rounded">
+                        <tr class="hover:bg-slate-50/50 transition-colors group">
+                            <!-- Cover -->
+                            <td class="px-8 py-6 whitespace-nowrap w-24">
+                                <div class="relative w-16 h-24 bg-slate-100 rounded-xl overflow-hidden border border-slate-200 shadow-sm group-hover:shadow-md transition-all">
+                                    <img src="{{ $history->book->cover_url }}" alt="{{ $history->book->judul }}" class="w-full h-full object-cover">
+                                </div>
                             </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm font-medium text-gray-900">{{ $history->book->judul }}</div>
-                                <div class="text-sm text-gray-500">{{ $history->book->kode_buku }}</div>
+                            <!-- Book details -->
+                            <td class="px-8 py-6 max-w-xs">
+                                <h3 class="text-base font-bold text-slate-900 mb-1.5">{{ $history->book->judul }}</h3>
+                                <p class="text-xs font-bold text-slate-400"><i class="bi bi-hash"></i>{{ $history->book->kode_buku }}</p>
+                                @if(!$history->book->file_pdf)
+                                    <span class="mt-3 inline-flex items-center px-2 py-1 rounded text-[10px] font-bold bg-slate-100 text-slate-500 border border-slate-200 uppercase tracking-widest">
+                                        Fisik Saja
+                                    </span>
+                                @endif
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-900">{{ $history->book->penulis }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-900">
-                                {{ $history->last_page ?? '-' }}
+                            <!-- Author & Halaman -->
+                            <td class="px-8 py-6">
+                                <div class="text-sm font-bold text-slate-600 mb-1.5">{{ $history->book->penulis }}</div>
+                                <div class="text-xs font-medium text-slate-400 bg-white border border-slate-200 px-2.5 py-1 rounded-md inline-block shadow-sm">
+                                    Hal: <span class="text-slate-900 font-bold ml-1">{{ $history->last_page ?? '-' }}</span>
+                                </div>
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-900">{{ $history->created_at->format('d M Y, H:i') }}</td>
-                            <td class="px-6 py-4 text-sm font-medium">
-                                <div class="flex space-x-2">
+                            <!-- Date -->
+                            <td class="px-8 py-6">
+                                <div class="text-sm font-bold text-slate-900 mb-1">{{ $history->created_at->format('d M Y') }}</div>
+                                <div class="text-xs font-medium text-slate-400">{{ $history->created_at->format('H:i') }} WIB</div>
+                            </td>
+                            <!-- Actions -->
+                            <td class="px-8 py-6 align-middle">
+                                <div class="flex items-center justify-center gap-3">
+                                    <a href="{{ route('student.books.show', $history->book->id) }}" 
+                                       class="p-2.5 text-slate-500 hover:text-slate-900 bg-white border border-slate-200 hover:border-slate-300 shadow-sm rounded-xl transition-all tooltip" title="Detail">
+                                        <i class="bi bi-info-circle text-lg"></i>
+                                    </a>
+                                    
                                     @if($history->book->file_pdf)
                                         <a href="{{ route('student.books.read', $history->book->id) }}" 
-                                           class="text-blue-600 hover:text-blue-900">
-                                            <i class="bi bi-book"></i>
+                                           class="p-2.5 text-white bg-slate-900 hover:bg-slate-800 shadow-sm rounded-xl transition-all tooltip" title="Lanjut Baca">
+                                            <i class="bi bi-book text-lg"></i>
                                         </a>
+                                    @else
+                                        <button disabled 
+                                           class="p-2.5 text-slate-400 bg-slate-100 border border-slate-200 rounded-xl cursor-not-allowed tooltip" title="Buku fisik tidak dapat dibaca online">
+                                            <i class="bi bi-dash-circle text-lg"></i>
+                                        </button>
                                     @endif
-                                    <a href="{{ route('student.books.show', $history->book->id) }}" 
-                                       class="text-indigo-600 hover:text-indigo-900">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-4 text-center text-gray-500">
-                                <div class="py-8">
-                                    <i class="bi bi-clock-history text-4xl text-gray-300 mb-4 block"></i>
-                                    <p class="text-lg font-medium">Belum ada riwayat membaca</p>
-                                    <p class="text-gray-500">Mulai membaca buku untuk melihat riwayat Anda</p>
+                            <td colspan="5" class="px-8 py-20 text-center">
+                                <div class="w-20 h-20 bg-slate-50 border border-slate-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-sm">
+                                    <i class="bi bi-clock-history text-4xl text-slate-300"></i>
                                 </div>
+                                <p class="text-2xl font-black text-slate-900 mb-2">Belum ada riwayat aktivitas</p>
+                                <p class="text-lg font-medium text-slate-500">Jejak bacaan Anda akan muncul di halaman ini.</p>
+                                <a href="{{ route('student.books.index') }}" class="inline-block mt-8 px-8 py-4 bg-slate-900 font-bold shadow-lg shadow-slate-900/20 text-white rounded-full hover:bg-slate-800 transition-all">Telusuri Katalog</a>
                             </td>
                         </tr>
                     @endforelse
@@ -72,15 +95,22 @@
         
         <!-- Pagination -->
         @if($readingHistories->hasPages())
-            <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
-                <div class="flex items-center justify-between">
-                    <div class="text-sm text-gray-700">
-                        Menampilkan {{ $readingHistories->firstItem() }} hingga {{ $readingHistories->lastItem() }} dari {{ $readingHistories->total() }} riwayat
-                    </div>
+            <div class="px-8 py-6 bg-slate-50 flex items-center justify-between border-t-0">
+                <div class="text-sm font-bold text-slate-500 hidden sm:block">
+                    Hal <span class="text-slate-900">{{ $readingHistories->currentPage() }}</span> dari <span class="text-slate-900">{{ $readingHistories->lastPage() }}</span>
+                </div>
+                <div class="user-pagination">
                     {{ $readingHistories->links() }}
                 </div>
             </div>
         @endif
     </div>
 </div>
+
+<style>
+/* Adjust laravel pagination styling for light theme if needed */
+.user-pagination nav div.hidden.sm\:flex-1 {
+    display: none !important;
+}
+</style>
 @endsection

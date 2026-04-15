@@ -16,7 +16,6 @@ class BookController extends Controller
         $category_id = $request->input('category_id');
 
         $books = Book::with('category')
-            ->whereNotNull('file_pdf') // Only show books with PDF
             ->when($search, function ($query, $search) {
                 return $query->where(function ($q) use ($search) {
                     $q->where('judul', 'like', "%{$search}%")

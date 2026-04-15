@@ -1,77 +1,101 @@
-@extends('layouts.student')
+@extends('layouts.student-theme')
 
-@section('title', $book->judul)
+@section('title', 'Detail | ' . $book->judul)
 
 @section('content')
-<div class="container py-5">
-    <div class="mb-4">
-        <a href="{{ route('student.books.index') }}" class="text-decoration-none d-flex align-items-center text-muted">
-            <i class="bi bi-arrow-left me-2"></i> Kembali ke Katalog
+<div class="max-w-4xl mx-auto py-10 px-4 sm:px-6">
+    <!-- Back Button -->
+    <div class="mb-8 text-center max-w-3xl mx-auto">
+        <a href="{{ route('student.books.index') }}" class="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors bg-white px-5 py-2.5 rounded-full border border-slate-200 shadow-sm">
+            <i class="bi bi-arrow-left"></i> Kembali ke Katalog
         </a>
     </div>
 
-    <div class="card border-0 shadow-sm p-4 rounded-4">
-        <div class="row g-5">
-            <div class="col-lg-4">
-                <div class="rounded-4 overflow-hidden shadow-sm bg-light d-flex align-items-center justify-content-center" style="aspect-ratio: 3/4;">
-                    @if($book->image)
-                        <img src="{{ asset('storage/' . $book->image) }}" alt="{{ $book->judul }}" class="w-100 h-100 object-fit-cover">
-                    @else
-                        <i class="bi bi-book text-muted opacity-25" style="font-size: 8rem;"></i>
-                    @endif
+    <!-- Centered Content Card -->
+    <div class="glass-panel rounded-[2.5rem] bg-white border border-slate-200 shadow-xl shadow-slate-200/50 overflow-hidden text-center relative p-8 sm:p-12">
+        
+        <!-- Background Accent Blur -->
+        <div class="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-slate-100 to-transparent opacity-50 z-0"></div>
+
+        <div class="relative z-10 flex flex-col items-center">
+            <!-- Cover Art -->
+            <div class="w-48 h-64 sm:w-56 sm:h-80 rounded-2xl overflow-hidden shadow-2xl border border-slate-100 mb-8 transform hover:scale-105 transition-transform duration-500">
+                <img src="{{ $book->cover_url }}" alt="{{ $book->judul }}" class="w-full h-full object-cover">
+            </div>
+
+            <!-- Title & Category -->
+            <div class="mb-5">
+                <span class="inline-block px-3 py-1 bg-slate-100 text-slate-600 border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-widest mb-4">
+                    {{ $book->category->nama ?? $book->category->name ?? 'Tak Berkategori' }}
+                </span>
+                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-3">
+                    {{ $book->judul }}
+                </h1>
+                <p class="text-lg text-slate-500 font-medium">Buku oleh <span class="text-slate-900 font-bold">{{ $book->penulis }}</span></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-4 mb-10 w-full mt-2">
+                <!-- Toggle Favorite Button -->
+                <form action="{{ route('student.favorites.toggle', $book->id) }}" method="POST" class="m-0">
+                    @csrf
+                    <button type="submit" 
+                            class="px-6 py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-sm border {{ $book->isFavoritedBy(auth()->id()) ? 'bg-rose-50 text-rose-600 border-rose-200 hover:bg-rose-100' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-slate-900' }}">
+                        <i class="bi bi-{{ $book->isFavoritedBy(auth()->id()) ? 'heart-fill' : 'heart' }} text-lg"></i>
+                        <span>{{ $book->isFavoritedBy(auth()->id()) ? 'Tersimpan' : 'Mulai Simpan' }}</span>
+                    </button>
+                </form>
+
+                <!-- Read Document Button -->
+                @if($book->file_pdf)
+                    <a href="{{ route('student.books.read', $book->id) }}" 
+                       class="px-8 py-3.5 bg-slate-900 text-white rounded-xl shadow-lg shadow-slate-900/20 hover:bg-slate-800 transition-all font-bold flex items-center justify-center gap-2">
+                        <i class="bi bi-book text-lg"></i>
+                        Mulai Membaca
+                    </a>
+                @else
+                    <button disabled 
+                            class="px-8 py-3.5 bg-slate-100 text-slate-400 border border-slate-200 rounded-xl cursor-not-allowed font-bold flex items-center justify-center gap-2 tooltip" title="Hanya tersedia buku fisik di perpustakaan">
+                        <i class="bi bi-lock-fill text-lg text-slate-300"></i>
+                        Belum Bisa Dibaca
+                    </button>
+                @endif
+            </div>
+
+            <hr class="w-24 border-slate-200 mx-auto mb-10">
+
+            <!-- Specs Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full mb-10 text-center">
+                <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl">
+                    <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Kode Buku</p>
+                    <p class="font-black text-slate-900">{{ $book->kode_buku }}</p>
+                </div>
+                <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl">
+                    <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Tahun Terbit</p>
+                    <p class="font-black text-slate-900">{{ $book->tahun_terbit }}</p>
+                </div>
+                <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl">
+                    <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Total Dibaca</p>
+                    <p class="font-black text-slate-900">{{ $book->jumlah_dibaca ?? 0 }}x</p>
+                </div>
+                <div class="bg-slate-50 border border-slate-100 p-4 rounded-2xl">
+                    <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Penerbit</p>
+                    <p class="font-black text-slate-900 truncate" title="{{ $book->penerbit }}">{{ explode(' ', $book->penerbit)[0] }}...</p>
                 </div>
             </div>
-            <div class="col-lg-8">
-                <div class="mb-3">
-                    <span class="badge-category">{{ $book->category->name }}</span>
-                </div>
-                <h1 class="fw-bold mb-2">{{ $book->judul }}</h1>
-                <p class="fs-5 text-muted mb-4">oleh <span class="text-dark fw-semibold">{{ $book->penulis }}</span></p>
 
-                <div class="row g-3 mb-5">
-                    <div class="col-6 col-sm-3">
-                        <div class="p-3 bg-light rounded-3">
-                            <div class="small text-muted mb-1 text-uppercase fw-bold" style="font-size: 10px;">Kode Buku</div>
-                            <div class="fw-bold text-dark">{{ $book->kode_buku }}</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-3">
-                        <div class="p-3 bg-light rounded-3">
-                            <div class="small text-muted mb-1 text-uppercase fw-bold" style="font-size: 10px;">Stok</div>
-                            <div class="fw-bold text-dark">{{ $book->stok }} eks</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-3">
-                        <div class="p-3 bg-light rounded-3">
-                            <div class="small text-muted mb-1 text-uppercase fw-bold" style="font-size: 10px;">Penerbit</div>
-                            <div class="fw-bold text-dark text-truncate">{{ $book->penerbit }}</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-3">
-                        <div class="p-3 bg-light rounded-3">
-                            <div class="small text-muted mb-1 text-uppercase fw-bold" style="font-size: 10px;">Tahun</div>
-                            <div class="fw-bold text-dark">{{ $book->tahun_terbit }}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-5">
-                    <h5 class="fw-bold mb-3">Sinopsis / Deskripsi</h5>
-                    <p class="text-secondary leading-relaxed" style="font-size: 1.1rem;">
-                        {{ $book->deskripsi ?? 'Tidak ada deskripsi tersedia untuk buku ini.' }}
-                    </p>
-                </div>
-
-                <div class="d-grid gap-2 d-md-flex mt-auto">
-                    <form action="{{ route('student.books.borrow', $book->id) }}" method="POST" class="flex-grow-1">
-                        @csrf
-                        <button type="submit" class="btn btn-primary btn-lg w-100 py-3 fw-bold shadow-sm" 
-                                onclick="return confirm('Apakah Anda yakin ingin meminjam buku ini?')"
-                                {{ $book->stok < 1 ? 'disabled' : '' }}>
-                            <i class="bi bi-bookmark-plus me-2"></i> {{ $book->stok < 1 ? 'Stok Habis' : 'Pinjam Sekarang' }}
-                        </button>
-                    </form>
-                </div>
+            <!-- Synopsis / Description -->
+            <div class="w-full text-left bg-white border border-slate-200 p-8 rounded-2xl shadow-sm">
+                <h3 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-3">
+                    <i class="bi bi-body-text text-slate-400"></i> Sinopsis Dokumen
+                </h3>
+                <p class="text-slate-600 leading-relaxed text-[15px] max-w-3xl text-justify mx-auto">
+                    @if($book->deskripsi)
+                        {!! nl2br(e($book->deskripsi)) !!}
+                    @else
+                        <span class="italic text-slate-400">Belum ada rincian dan deskripsi mendalam yang dicatat untuk buku ini.</span>
+                    @endif
+                </p>
             </div>
         </div>
     </div>

@@ -1,41 +1,45 @@
-@extends('layouts.admin')
+@extends('layouts.admin-theme')
 
-@section('title', 'Edit Kategori')
+@section('title', 'Edit Kategori ' . ($category->nama ?? $category->name))
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card p-4">
-                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-                    <div>
-                        <h4 class="fw-bold mb-1">Edit Kategori</h4>
-                        <p class="text-muted small mb-0">Ubah nama kategori buku</p>
-                    </div>
-                    <a href="{{ route('admin.categories.index') }}" class="btn btn-light btn-sm border">
-                        <i class="bi bi-arrow-left me-1"></i> Kembali
-                    </a>
-                </div>
-
-                <form action="{{ route('admin.categories.update', $category->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-4">
-                        <label class="form-label fw-bold small text-muted text-uppercase">Nama Kategori</label>
-                        <input type="text" class="form-control rounded-3 py-2 @error('name') is-invalid @enderror"
-                            name="name" value="{{ old('name', $category->name) }}" required autofocus>
-                        @error('name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="d-flex gap-2 mt-4 pt-3 border-top">
-                        <button type="submit" class="btn btn-primary px-4 py-2">
-                            <i class="bi bi-save me-2"></i> Update
-                        </button>
-                        <a href="{{ route('admin.categories.index') }}" class="btn btn-light px-4 py-2 border">Batal</a>
-                    </div>
-                </form>
-            </div>
+<div class="max-w-3xl mx-auto py-10 px-4 sm:px-6">
+    <div class="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Edit Kategori</h1>
+            <p class="text-slate-500 font-medium mt-2">Mengubah penamaan pada tag/kategori buku katalog.</p>
         </div>
+        <a href="{{ route('admin.categories.index') }}" class="inline-flex px-5 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-50 hover:text-slate-900 font-bold shadow-sm transition-all items-center gap-2 w-max">
+            <i class="bi bi-arrow-left"></i> Kembali
+        </a>
     </div>
+
+    <div class="glass-panel p-8 sm:p-10 rounded-[2.5rem] bg-white border border-slate-200 shadow-sm relative">
+        <form action="{{ route('admin.categories.update', $category->id) }}" method="POST" class="space-y-6">
+            @csrf
+            @method('PUT')
+            
+            <div>
+                <label for="name" class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                    Nama Kategori <span class="text-rose-500">*</span>
+                </label>
+                <input type="text" id="name" name="name" required autofocus
+                       class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all shadow-sm"
+                       value="{{ old('name', $category->name ?? $category->nama) }}">
+                @error('name')
+                    <p class="mt-2 text-xs font-bold text-rose-500"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-end gap-3">
+                <a href="{{ route('admin.categories.index') }}" class="px-6 py-3.5 bg-white border border-slate-200 text-slate-500 rounded-xl hover:bg-slate-50 hover:text-slate-900 font-bold transition-all shadow-sm">
+                    Batal
+                </a>
+                <button type="submit" class="px-8 py-3.5 bg-amber-400 text-amber-900 rounded-xl shadow-lg shadow-amber-400/20 hover:bg-amber-500 transition-all font-bold flex items-center justify-center gap-2">
+                    <i class="bi bi-save mr-1"></i> Terapkan Ubahan
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection

@@ -1,381 +1,301 @@
-@extends('layouts.student')
+@extends('layouts.student-theme')
 
 @section('title', 'Dashboard')
 
-@section('content')
-<div class="container-fluid p-6">
-    <!-- Header -->
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Selamat Datang!</h1>
-        <p class="text-gray-600 mt-2">{{ auth()->user()->name }}, jelajahi koleksi buku digital perpustakaan</p>
-    </div>
+@section('styles')
+<style>
+    /* Swiper Coverflow specific styles */
+    .hero-swiper {
+        width: 100%;
+        padding-top: 20px;
+        padding-bottom: 50px;
+    }
 
-    <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- Total Books -->
-        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-600 font-medium">Total Buku</p>
-                    <p class="text-2xl font-bold text-gray-900">{{ $totalBooks }}</p>
-                </div>
-                <div class="bg-blue-100 rounded-full p-3">
-                    <i class="bi bi-book text-blue-600 text-xl"></i>
-                </div>
-            </div>
-        </div>
+    .swiper-slide {
+        background-position: center;
+        background-size: cover;
+        width: 200px; /* Base width */
+        height: 300px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(15, 23, 42, 0.15); /* slate-900 shadow */
+        position: relative;
+    }
+    
+    @media (min-width: 768px) {
+        .swiper-slide {
+            width: 250px;
+            height: 360px;
+        }
+    }
 
-        <!-- Favorites -->
-        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-600 font-medium">Favorit</p>
-                    <p class="text-2xl font-bold text-gray-900">{{ $totalFavorites }}</p>
-                </div>
-                <div class="bg-red-100 rounded-full p-3">
-                    <i class="bi bi-heart text-red-600 text-xl"></i>
-                </div>
-            </div>
-        </div>
+    .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease, filter 0.5s;
+    }
 
-        <!-- Read Books -->
-        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-600 font-medium">Sudah Dibaca</p>
-                    <p class="text-2xl font-bold text-gray-900">{{ $totalReadBooks }}</p>
-                </div>
-                <div class="bg-green-100 rounded-full p-3">
-                    <i class="bi bi-check-circle text-green-600 text-xl"></i>
-                </div>
-            </div>
-        </div>
+    /* Blur inactive slides slightly and add overlay */
+    .swiper-slide:not(.swiper-slide-active) img {
+        filter: blur(2px) grayscale(10%);
+        transform: scale(1.02);
+    }
+    .swiper-slide:not(.swiper-slide-active)::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(248, 250, 252, 0.4); /* slate-50 overlay */
+        z-index: 10;
+        pointer-events: none;
+    }
 
-        <!-- Reading Progress -->
-        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-600 font-medium">Progress</p>
-                    <p class="text-2xl font-bold text-gray-900">{{ round(($totalReadBooks / max($totalBooks, 1)) * 100) }}%</p>
-                </div>
-                <div class="bg-purple-100 rounded-full p-3">
-                    <i class="bi bi-graph-up text-purple-600 text-xl"></i>
-                </div>
-            </div>
-        </div>
-    </div>
+    .swiper-slide-active {
+        box-shadow: 0 0 30px rgba(15, 23, 42, 0.2);
+        border: 2px solid #0f172a;
+    }
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Recent Books -->
-        <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <i class="bi bi-clock-history text-blue-500 mr-2"></i>
-                Buku Terbaru
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                @forelse($recentBooks as $book)
-                    <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onclick="window.location.href='{{ route('student.books.show', $book->id) }}'">
-                        <img src="{{ $book->cover_url }}" alt="{{ $book->judul }}" 
-                             class="w-12 h-16 object-cover rounded">
-                        <div class="flex-1">
-                            <h4 class="font-medium text-gray-900 text-sm">{{ Str::limit($book->judul, 25) }}</h4>
-                            <p class="text-xs text-gray-600">{{ $book->penulis }}</p>
-                        </div>
-                    </div>
-                @empty
-                    <div class="col-span-2 text-center py-4 text-gray-500">
-                        <p>Belum ada buku tersedia</p>
-                    </div>
-                @endforelse
-            </div>
-        </div>
+    .swiper-slide-active img {
+        filter: brightness(1.05);
+    }
 
-        <!-- Popular Books -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <i class="bi bi-fire text-orange-500 mr-2"></i>
-                Populer
-            </h3>
-            <div class="space-y-3">
-                @forelse($popularBooks as $book)
-                    <div class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer" onclick="window.location.href='{{ route('student.books.show', $book->id) }}'">
-                        <img src="{{ $book->cover_url }}" alt="{{ $book->judul }}" 
-                             class="w-10 h-14 object-cover rounded">
-                        <div class="flex-1">
-                            <h4 class="font-medium text-gray-900 text-sm">{{ Str::limit($book->judul, 20) }}</h4>
-                            <p class="text-xs text-gray-600">{{ $book->jumlah_dibaca }} dibaca</p>
-                        </div>
-                    </div>
-                @empty
-                    <div class="text-center py-4 text-gray-500">
-                        <p>Belum ada buku populer</p>
-                    </div>
-                @endforelse
-            </div>
-        </div>
-    </div>
+    /* Custom swiper pagination */
+    .swiper-pagination-bullet {
+        background: #cbd5e1;
+        opacity: 1;
+    }
+    .swiper-pagination-bullet-active {
+        background: #0f172a;
+        box-shadow: 0 0 10px rgba(15, 23, 42, 0.3);
+    }
 
-    <!-- Recent Reading Activity -->
-    @if($recentReadings->count() > 0)
-        <div class="mt-6 bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <i class="bi bi-clock text-green-500 mr-2"></i>
-                Aktivitas Terbaru
-            </h3>
-            <div class="space-y-3">
-                @foreach($recentReadings as $reading)
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div class="flex items-center space-x-3">
-                            <img src="{{ $reading->book->cover_url }}" alt="{{ $reading->book->judul }}" 
-                                 class="w-10 h-14 object-cover rounded">
-                            <div>
-                                <h4 class="font-medium text-gray-900">{{ $reading->book->judul }}</h4>
-                                <p class="text-sm text-gray-600">{{ $reading->created_at->format('d M Y, H:i') }}</p>
-                            </div>
-                        </div>
-                        <a href="{{ route('student.books.read', $reading->book->id) }}" 
-                           class="px-3 py-1 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
-                            <i class="bi bi-book mr-1"></i>
-                            Lanjut Baca
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    @endif
-</div>
+    /* Hover effects for grid cards */
+    .book-card-hover {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .book-card-hover:hover {
+        transform: translateY(-5px);
+        background: #ffffff;
+        border-color: #cbd5e1;
+        box-shadow: 0 15px 30px -5px rgba(15, 23, 42, 0.1);
+    }
+    
+    .book-card-hover img {
+        transition: transform 0.4s ease;
+    }
+    .book-card-hover:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Title styling */
+    .section-title {
+        color: #0f172a;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+    }
+</style>
 @endsection
-                    </div>
-                    <button type="button" class="btn btn-sm btn-primary">
-                        <i class="bi bi-plus-circle"></i> Pinjam Buku
-                    </button>
+
+@section('content')
+<div class="max-w-7xl mx-auto">
+    <!-- Header Summary Section -->
+    <div class="mb-12 pl-4 lg:pl-0 flex flex-col md:flex-row md:items-end justify-between">
+        <div>
+            <p class="text-slate-500 text-sm font-bold uppercase tracking-widest mb-2">Dashboard Koleksi</p>
+            <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">Selamat Datang, <span class="text-slate-600">{{ explode(' ', auth()->user()->name)[0] }}</span></h1>
+        </div>
+        <div class="mt-4 md:mt-0 flex gap-4">
+            <div class="glass-panel px-6 py-3 rounded-2xl flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-900">
+                    <i class="bi bi-book text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 uppercase tracking-widest font-bold">Total Buku</p>
+                    <p class="text-2xl font-black text-slate-900 leading-none mt-1">{{ $totalBooks ?? 0 }}</p>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- Welcome Card -->
-            <div class="card mb-4 bg-primary text-white">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <h3 class="card-title">Selamat Datang, {{ auth()->user()->name }}! </h3>
-                            <p class="card-text opacity-75">Jelajahi koleksi buku perpustakaan kami dan temukan pengetahuan baru setiap hari.</p>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <i class="bi bi-book-half display-1 opacity-50"></i>
-                        </div>
+    <!-- Hero Section / Top Carousel (Cover Flow) -->
+    <div class="mb-16 relative overflow-hidden rounded-[2rem] glass-panel p-8 pb-4">
+        <h2 class="section-title text-2xl mb-2 flex items-center">
+            Pilihan Teratas Minggu Ini <i class="bi bi-stars text-slate-400 ml-3"></i>
+        </h2>
+        <p class="text-slate-500 font-medium mb-6">Buku yang paling banyak direkomendasikan untuk Anda.</p>
+        
+        <!-- Swiper -->
+        <div class="swiper hero-swiper">
+            <div class="swiper-wrapper">
+                @forelse($recentBooks as $book)
+                <div class="swiper-slide cursor-pointer group rounded-2xl" onclick="window.location.href='{{ route('student.books.show', $book->id) }}'">
+                    <img src="{{ $book->cover_url }}" alt="{{ $book->judul }}" class="rounded-2xl relative z-0">
+                    
+                    <!-- Title Overlay when active -->
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent p-5 opacity-0 group-[.swiper-slide-active]:opacity-100 transition-opacity duration-300 z-20 flex flex-col justify-end">
+                        <h3 class="text-white font-bold text-base truncate">{{ $book->judul }}</h3>
+                        <p class="text-slate-300 text-sm truncate font-medium">{{ $book->penulis }}</p>
                     </div>
                 </div>
+                @empty
+                <div class="swiper-slide"><div class="w-full h-full bg-slate-200 flex items-center justify-center rounded-2xl"><span class="text-slate-500 font-semibold">Tunggu Buku Baru</span></div></div>
+                @endforelse
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <!-- Grid Content: 2 Columns -->
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        
+        <!-- Left Column: Featured/Best Book -->
+        <div class="xl:col-span-1">
+            <h2 class="section-title text-3xl mb-8">Buku Unggulan</h2>
+            
+            @php 
+                $featuredBook = $recentBooks->first(); 
+            @endphp
+
+            @if($featuredBook)
+            <div class="glass-panel p-8 rounded-[2rem] relative flex flex-col h-full bg-white border border-slate-200 group">
+                <!-- Highlight Indicator -->
+                <div class="absolute top-0 right-8 w-16 h-1 bg-slate-900 rounded-b-lg"></div>
+                
+                <div class="flex justify-center mb-8 mt-2">
+                    <div class="relative w-56 h-72 rounded-2xl overflow-hidden shadow-2xl border border-slate-100 group-hover:-translate-y-2 transition-transform duration-500">
+                        <img src="{{ $featuredBook->cover_url }}" alt="{{ $featuredBook->judul }}" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <div class="flex flex-col flex-grow text-center">
+                    <div class="flex items-center justify-center gap-2 mx-auto mb-4">
+                        <span class="px-4 py-1.5 bg-slate-100 text-slate-800 text-xs font-bold uppercase tracking-wider rounded-full border border-slate-200">
+                            Pilihan Utama
+                        </span>
+                    </div>
+                    <h3 class="text-slate-900 font-extrabold text-2xl mb-2 leading-tight">{{ $featuredBook->judul }}</h3>
+                    <p class="text-slate-500 font-medium text-sm mb-4">{{ $featuredBook->penulis }}</p>
+                    
+                    <!-- Dummy Rating -->
+                    <div class="flex items-center justify-center gap-1 mb-6">
+                        <i class="bi bi-star-fill text-slate-800 text-sm"></i>
+                        <i class="bi bi-star-fill text-slate-800 text-sm"></i>
+                        <i class="bi bi-star-fill text-slate-800 text-sm"></i>
+                        <i class="bi bi-star-fill text-slate-800 text-sm"></i>
+                        <i class="bi bi-star-half text-slate-800 text-sm"></i>
+                        <span class="text-slate-500 font-semibold text-xs ml-2">(4.8)</span>
+                    </div>
+
+                    <p class="text-slate-600 leading-relaxed text-sm mb-8 flex-grow line-clamp-3">
+                        Dapatkan wawasan baru dan perluas pengetahuanmu dengan menjadikan buku ini sebagai bacaan utama di minggu ini.
+                    </p>
+
+                    <a href="{{ route('student.books.show', $featuredBook->id) }}" class="mt-auto w-full py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl shadow-lg shadow-slate-900/20 transition-all hover:scale-[1.02] active:scale-95">
+                        Lihat Selengkapnya
+                    </a>
+                </div>
+            </div>
+            @endif
+        </div>
+
+        <!-- Right Column: Popular Books Grid -->
+        <div class="xl:col-span-2">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="section-title text-3xl">Buku Populer</h2>
+                <a href="{{ route('student.books.index') }}" class="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors group">
+                    Semua Koleksi <i class="bi bi-arrow-right ml-1 transform group-hover:translate-x-1 transition-transform inline-block"></i>
+                </a>
             </div>
 
-            <!-- Recent Activity & Quick Actions -->
-            <div class="row">
-                <!-- Recent Activity -->
-                <div class="col-lg-8 mb-4">
-                    <div class="card shadow">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Aktivitas Terbaru</h6>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="bi bi-three-dots-vertical fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in">
-                                    <a class="dropdown-item" href="#">Lihat Semua</a>
-                                    <a class="dropdown-item" href="#">Export Data</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            @if($recentReadings->count() > 0)
-                                @foreach($recentReadings as $reading)
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="flex-shrink-0">
-                                        <div class="bg-success bg-opacity-10 rounded-circle p-2">
-                                            <i class="bi bi-book text-success"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1">{{ $reading->book->judul }}</h6>
-                                        <p class="text-muted small mb-0">
-                                            {{ $reading->created_at->format('d M Y') }} - 
-                                            Halaman {{ $reading->last_page ?? '1' }}
-                                        </p>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <a href="{{ route('student.books.read', $reading->book->id) }}" 
-                                           class="btn btn-sm btn-primary">
-                                            <i class="bi bi-book"></i> Lanjut Baca
-                                        </a>
-                                    </div>
-                                </div>
-                                @endforeach
-                                @foreach    
-                            @else
-                                <div class="text-center py-4">
-                                    <i class="bi bi-clock-history text-3xl text-muted mb-3 d-block"></i>
-                                    <p class="text-muted">Belum ada aktivitas membaca</p>
-                                    <a href="{{ route('student.books.index') }}" class="btn btn-primary btn-sm">
-                                        <i class="bi bi-book me-1"></i> Mulai Membaca
-                                    </a>
-                                </div>
-                            @endif 
-                                            <span class="badge bg-{{ $borrowing->status_color }}">{{ $borrowing->status }}</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                @endforeach
-                            @else
-                                <p class="text-muted text-center">Belum ada aktivitas pinjaman</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
+                @forelse($popularBooks as $book)
+                <div class="glass-panel book-card-hover rounded-[1.5rem] p-5 cursor-pointer flex items-center gap-5 bg-white" onclick="window.location.href='{{ route('student.books.show', $book->id) }}'">
+                    <div class="w-24 h-32 flex-shrink-0 rounded-xl overflow-hidden border border-slate-100 shadow-md relative">
+                        <img src="{{ $book->cover_url }}" alt="{{ $book->judul }}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-slate-900 font-bold text-lg mb-1 truncate">{{ $book->judul }}</h4>
+                        <p class="text-slate-500 font-medium text-sm mb-3 truncate">{{ $book->penulis }}</p>
+                        
+                        <div class="flex items-center gap-3">
+                            <span class="flex items-center text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-1.5 rounded-lg border border-slate-200">
+                                <i class="bi bi-eye mr-2"></i> {{ $book->jumlah_dibaca ?? max(12, rand(10,50)) }}
+                            </span>
+                            @if($book->kategori)
+                            <span class="text-xs font-bold text-slate-500 px-2.5 py-1.5 rounded-lg border border-slate-200 truncate max-w-[100px]">
+                                {{ $book->kategori->nama }}
+                            </span>
                             @endif
                         </div>
                     </div>
                 </div>
-
-                <!-- Quick Actions -->
-                <div class="col-lg-4 mb-4">
-                    <div class="card shadow">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Akses Cepat</h6>
+                @empty
+                <div class="col-span-1 sm:col-span-2 glass-panel p-10 rounded-[2rem] text-center bg-white border border-slate-200">
+                    <i class="bi bi-journal-x text-5xl text-slate-300 mb-4 block"></i>
+                    <p class="text-slate-500 font-medium">Belum ada koleksi yang populer saat ini.</p>
+                </div>
+                @endforelse
+            </div>
+            
+            <!-- Optional: Activity snippet if exists -->
+            @if(isset($recentReadings) && $recentReadings->count() > 0)
+            <h2 class="section-title text-2xl mb-6 mt-12">Lanjut Membaca</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @foreach($recentReadings->take(2) as $reading)
+                <div class="glass-panel border-l-4 border-l-slate-900 bg-white p-5 rounded-[1.5rem] shadow-sm flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
+                    <div class="flex items-center gap-4 w-3/4">
+                        <div class="w-14 h-14 bg-slate-100 rounded-xl overflow-hidden flex-shrink-0 relative border border-slate-200">
+                             <img src="{{ $reading->book->cover_url }}" class="w-full h-full object-cover">
+                             <div class="absolute inset-0 flex items-center justify-center bg-slate-900/10 group-hover:bg-slate-900/30 transition-colors"><i class="bi bi-play-fill text-white opacity-0 group-hover:opacity-100 transition-opacity"></i></div>
                         </div>
-                        <div class="card-body">
-                            <div class="d-grid gap-2">
-                                <a href="{{ route('student.books.index') }}" class="btn btn-primary btn-sm">
-                                    <i class="bi bi-search me-2"></i> Cari Buku
-                                </a>
-                                <a href="{{ route('student.borrowings.index') }}" class="btn btn-success btn-sm">
-                                    <i class="bi bi-journal-text me-2"></i> Pinjaman Saya
-                                </a>
-                                <a href="{{ route('student.borrowings.history') }}" class="btn btn-info btn-sm">
-                                    <i class="bi bi-clock-history me-2"></i> Riwayat
-                                </a>
-                                <a href="{{ route('profile.edit') }}" class="btn btn-secondary btn-sm">
-                                    <i class="bi bi-person me-2"></i> Profil
-                                </a>
-                            </div>
+                        <div class="min-w-0">
+                            <h4 class="text-slate-900 font-bold text-base truncate">{{ $reading->book->judul }}</h4>
+                            <p class="text-slate-500 font-medium text-xs mt-1">Terakhir dibaca: {{ $reading->created_at->diffForHumans() }}</p>
                         </div>
                     </div>
+                    <a href="{{ route('student.books.read', $reading->book->id) }}" class="text-slate-400 group-hover:text-slate-900 p-2 rounded-xl bg-slate-50 group-hover:bg-slate-100 transition-colors border border-slate-100">
+                        <i class="bi bi-arrow-right text-xl"></i>
+                    </a>
                 </div>
+                @endforeach
             </div>
+            @endif
 
-            <!-- User Info Card -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Informasi Akun</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p><strong>Nama:</strong> {{ auth()->user()->name }}</p>
-                                    <p><strong>Email:</strong> {{ auth()->user()->email }}</p>
-                                    <p><strong>NIS:</strong> {{ auth()->user()->nis ?? '-' }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p><strong>Kelas:</strong> {{ auth()->user()->kelas ?? '-' }}</p>
-                                    <p><strong>Status:</strong> <span class="badge bg-success">Aktif</span></p>
-                                    <p><strong>Bergabung:</strong> {{ auth()->user()->created_at->format('d M Y') }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+        </div>
     </div>
 </div>
+@endsection
 
-<style>
-.sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100;
-    padding: 80px 0 0;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-    width: 240px;
-}
-
-.sidebar-sticky {
-    position: relative;
-    top: 0;
-    height: calc(100vh - 80px);
-    padding-top: .5rem;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-.sidebar .nav-link {
-    font-weight: 500;
-    color: #333;
-    padding: 0.75rem 1rem;
-    border-radius: 0.25rem;
-}
-
-.sidebar .nav-link:hover {
-    color: #F75D34 !important;
-    background-color: rgba(247, 93, 52, 0.05);
-}
-
-.sidebar .nav-link.active {
-    color: #F75D34 !important;
-    background-color: rgba(247, 93, 52, 0.1);
-}
-
-.sidebar .nav-link i {
-    margin-right: 0.5rem;
-}
-
-.border-left-primary {
-    border-left: 0.25rem solid #F75D34 !important;
-}
-
-.border-left-success {
-    border-left: 0.25rem solid #1cc88a !important;
-}
-
-.border-left-info {
-    border-left: 0.25rem solid #36b9cc !important;
-}
-
-.border-left-warning {
-    border-left: 0.25rem solid #f6c23e !important;
-}
-
-.text-primary {
-    color: #F75D34 !important;
-}
-
-.bg-primary {
-    background-color: #F75D34 !important;
-}
-
-.btn-primary {
-    background-color: #F75D34 !important;
-    border-color: #F75D34 !important;
-}
-
-.btn-primary:hover {
-    background-color: #FF8C42 !important;
-    border-color: #FF8C42 !important;
-}
-
-@media (max-width: 767.98px) {
-    .sidebar {
-        position: static;
-        height: auto;
-        padding-top: 0;
-        width: 100%;
-        box-shadow: none;
-    }
-    
-    .sidebar-sticky {
-        height: auto;
-    }
-    
-    main {
-        margin-left: 0 !important;
-    }
-}
-</style>
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Swiper Coverflow
+        const swiper = new Swiper('.hero-swiper', {
+            effect: 'coverflow',
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            initialSlide: 1, // Start on the second slide
+            coverflowEffect: {
+                rotate: 15, // Rotate effect
+                stretch: -10, // Stretch space between slides
+                depth: 100, // Depth
+                modifier: 1, // Effect multiplier
+                slideShadows: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            keyboard: {
+                enabled: true,
+            },
+            autoplay: {
+                delay: 4500,
+                disableOnInteraction: false,
+            },
+        });
+    });
+</script>
 @endsection

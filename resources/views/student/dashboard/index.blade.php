@@ -208,6 +208,7 @@
                                     </div>
                                 </div>
                                 @endforeach
+                                @foreach    
                             @else
                                 <div class="text-center py-4">
                                     <i class="bi bi-clock-history text-3xl text-muted mb-3 d-block"></i>

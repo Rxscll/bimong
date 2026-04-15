@@ -3,79 +3,76 @@
 @section('title', 'Masuk')
 
 @section('content')
-    <div class="text-start mb-5">
-        <h2 class="fw-800 text-dark mb-2">Masuk</h2>
-        <p class="text-muted">Gunakan akun Anda untuk mengakses dashboard</p>
+    <div class="mb-10 lg:mt-0 mt-20">
+        <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-2">Selamat Datang.</h2>
+        <p class="text-slate-500 font-medium">Masuk ke akun Anda untuk mengakses dashboard.</p>
     </div>
 
     <!-- Session Status -->
     @if(session('status'))
-        <div class="alert alert-success border-0 shadow-sm small mb-4" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i> {{ session('status') }}
+        <div class="bg-emerald-50 text-emerald-600 border border-emerald-100 p-4 rounded-xl text-sm font-medium mb-6 flex items-center">
+            <i class="bi bi-check-circle-fill mr-3 text-lg"></i> {{ session('status') }}
         </div>
     @endif
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" class="space-y-6">
         @csrf
 
         <!-- Email Address -->
-        <div class="mb-4">
-            <label for="email" class="form-label fw-bold">Alamat Email</label>
-            <div class="input-group">
-                <span class="input-group-text bg-white border-end-0 shadow-none" style="border-radius: 12px 0 0 12px;">
-                    <i class="bi bi-envelope text-muted"></i>
-                </span>
-                <input type="email" class="form-control border-start-0 @error('email') is-invalid @enderror shadow-none"
-                    style="border-radius: 0 12px 12px 0;" id="email" name="email" value="{{ old('email') }}" required
-                    autofocus placeholder="nama@email.com">
+        <div>
+            <label for="email" class="block text-sm font-bold text-slate-900 mb-2">Alamat Email</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="bi bi-envelope text-slate-400 text-lg"></i>
+                </div>
+                <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus placeholder="nama@email.com"
+                    class="block w-full pl-12 pr-4 py-4 bg-slate-50 border @error('email') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-200 focus:ring-slate-900 focus:border-slate-900 @enderror rounded-xl text-sm transition-all outline-none">
             </div>
             @error('email')
-                <div class="text-danger mt-1 small" style="font-size: 0.75rem;">{{ $message }}</div>
+                <p class="mt-2 text-xs text-red-500 font-medium">{{ $message }}</p>
             @enderror
         </div>
 
         <!-- Password -->
-        <div class="mb-4">
-            <div class="d-flex justify-content-between">
-                <label for="password" class="form-label fw-bold">Kata Sandi</label>
+        <div>
+            <div class="flex items-center justify-between mb-2">
+                <label for="password" class="block text-sm font-bold text-slate-900">Kata Sandi</label>
                 @if (Route::has('password.request'))
-                    <a class="small text-decoration-none fw-bold" href="{{ route('password.request') }}"
-                        style="color: var(--primary);">
+                    <a href="{{ route('password.request') }}" class="text-sm font-bold text-slate-500 hover:text-slate-900 transition">
                         Lupa?
                     </a>
                 @endif
             </div>
-            <div class="input-group">
-                <span class="input-group-text bg-white border-end-0 shadow-none" style="border-radius: 12px 0 0 12px;">
-                    <i class="bi bi-lock text-muted"></i>
-                </span>
-                <input type="password"
-                    class="form-control border-start-0 @error('password') is-invalid @enderror shadow-none"
-                    style="border-radius:0 12px 12px 0;" id="password" name="password" required placeholder="••••••••">
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="bi bi-lock text-slate-400 text-lg"></i>
+                </div>
+                <input type="password" id="password" name="password" required placeholder="••••••••"
+                    class="block w-full pl-12 pr-4 py-4 bg-slate-50 border @error('password') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-200 focus:ring-slate-900 focus:border-slate-900 @enderror rounded-xl text-sm transition-all outline-none">
             </div>
             @error('password')
-                <div class="text-danger mt-1 small" style="font-size: 0.75rem;">{{ $message }}</div>
+                <p class="mt-2 text-xs text-red-500 font-medium">{{ $message }}</p>
             @enderror
         </div>
 
         <!-- Remember Me -->
-        <div class="form-check mb-4">
-            <input class="form-check-input shadow-none" type="checkbox" id="remember_me" name="remember"
-                style="cursor:pointer;">
-            <label class="form-check-label small text-muted" for="remember_me" style="cursor:pointer;">
+        <div class="flex items-center mt-4">
+            <input id="remember_me" type="checkbox" name="remember" class="h-4 w-4 text-slate-900 border-slate-300 rounded focus:ring-slate-900 cursor-pointer">
+            <label for="remember_me" class="ml-2 block text-sm font-medium text-slate-500 cursor-pointer">
                 Biarkan saya tetap masuk
             </label>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 py-3 mt-2 shadow-sm">
-            Masuk Sekarang <i class="bi bi-arrow-right ms-2"></i>
+        <!-- Submit Button -->
+        <button type="submit" class="w-full flex items-center justify-center py-4 px-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition shadow-lg shadow-slate-900/20 text-lg">
+            Masuk Sekarang <i class="bi bi-arrow-right ml-2"></i>
         </button>
 
         @if (Route::has('register'))
-            <div class="text-center mt-4">
-                <p class="small text-muted mb-0">
-                    Belum punya akun? <a href="{{ route('register') }}" class="text-decoration-none fw-bold"
-                        style="color: var(--primary);">Daftar Gratis</a>
+            <div class="mt-8 text-center border-t border-slate-100 pt-6">
+                <p class="text-sm font-medium text-slate-500">
+                    Belum punya akun? 
+                    <a href="{{ route('register') }}" class="text-slate-900 font-bold hover:underline transition">Daftar Gratis</a>
                 </p>
             </div>
         @endif

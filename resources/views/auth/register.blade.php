@@ -3,129 +3,88 @@
 @section('title', 'Daftar')
 
 @section('content')
-<<<<<<< HEAD
-    <div class="text-start mb-5">
-        <h2 class="fw-800 text-dark mb-2">Daftar</h2>
-        <p class="text-muted">Buat akun untuk mulai meminjam buku</p>
+    <div class="mb-10 lg:mt-0 mt-20">
+        <h2 class="text-3xl font-black text-slate-900 tracking-tight mb-2">Daftar Akun.</h2>
+        <p class="text-slate-500 font-medium">Buat akun untuk mulai meminjam buku secara digital.</p>
     </div>
-=======
-    <h4 class="text-center fw-bold mb-1">Daftar Akun</h4>
-    <p class="text-center text-muted small mb-4">Buat akun untuk mulai meminjam</p>
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
 
-    <form method="POST" action="{{ route('register') }}">
+    <!-- Session Status -->
+    @if(session('status'))
+        <div class="bg-emerald-50 text-emerald-600 border border-emerald-100 p-4 rounded-xl text-sm font-medium mb-6 flex items-center">
+            <i class="bi bi-check-circle-fill mr-3 text-lg"></i> {{ session('status') }}
+        </div>
+    @endif
+
+    <form method="POST" action="{{ route('register') }}" class="space-y-6">
         @csrf
 
-        <!-- Name -->
-<<<<<<< HEAD
-        <div class="mb-4">
-            <label for="name" class="form-label fw-bold">Nama Lengkap</label>
-            <div class="input-group">
-                <span class="input-group-text bg-white border-end-0 shadow-none" style="border-radius: 12px 0 0 12px;">
-                    <i class="bi bi-person text-muted"></i>
-                </span>
-                <input type="text" class="form-control border-start-0 @error('name') is-invalid @enderror shadow-none" 
-                    style="border-radius: 0 12px 12px 0;"
-                    id="name" name="name" value="{{ old('name') }}" required autofocus placeholder="Nama Anda">
+        <!-- Name Address -->
+        <div>
+            <label for="name" class="block text-sm font-bold text-slate-900 mb-2">Nama Lengkap</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="bi bi-person text-slate-400 text-lg"></i>
+                </div>
+                <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus placeholder="Nama Anda"
+                    class="block w-full pl-12 pr-4 py-4 bg-slate-50 border @error('name') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-200 focus:ring-slate-900 focus:border-slate-900 @enderror rounded-xl text-sm transition-all outline-none">
             </div>
             @error('name')
-                <div class="text-danger mt-1 small" style="font-size: 0.75rem;">{{ $message }}</div>
-=======
-        <div class="mb-3">
-            <label for="name" class="form-label small fw-bold">Nama Lengkap</label>
-            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
-                value="{{ old('name') }}" required autofocus autocomplete="name">
-            @error('name')
-                <div class="invalid-feedback small">{{ $message }}</div>
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
+                <p class="mt-2 text-xs text-red-500 font-medium">{{ $message }}</p>
             @enderror
         </div>
 
         <!-- Email Address -->
-<<<<<<< HEAD
-        <div class="mb-4">
-            <label for="email" class="form-label fw-bold">Alamat Email</label>
-            <div class="input-group">
-                <span class="input-group-text bg-white border-end-0 shadow-none" style="border-radius: 12px 0 0 12px;">
-                    <i class="bi bi-envelope text-muted"></i>
-                </span>
-                <input type="email" class="form-control border-start-0 @error('email') is-invalid @enderror shadow-none" 
-                    style="border-radius: 0 12px 12px 0;"
-                    id="email" name="email" value="{{ old('email') }}" required placeholder="nama@email.com">
+        <div>
+            <label for="email" class="block text-sm font-bold text-slate-900 mb-2">Alamat Email</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="bi bi-envelope text-slate-400 text-lg"></i>
+                </div>
+                <input type="email" id="email" name="email" value="{{ old('email') }}" required placeholder="nama@email.com"
+                    class="block w-full pl-12 pr-4 py-4 bg-slate-50 border @error('email') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-200 focus:ring-slate-900 focus:border-slate-900 @enderror rounded-xl text-sm transition-all outline-none">
             </div>
             @error('email')
-                <div class="text-danger mt-1 small" style="font-size: 0.75rem;">{{ $message }}</div>
-=======
-        <div class="mb-3">
-            <label for="email" class="form-label small fw-bold">Alamat Email</label>
-            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
-                value="{{ old('email') }}" required autocomplete="username">
-            @error('email')
-                <div class="invalid-feedback small">{{ $message }}</div>
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
+                <p class="mt-2 text-xs text-red-500 font-medium">{{ $message }}</p>
             @enderror
         </div>
 
         <!-- Password -->
-<<<<<<< HEAD
-        <div class="mb-4">
-            <label for="password" class="form-label fw-bold">Kata Sandi</label>
-            <div class="input-group">
-                <span class="input-group-text bg-white border-end-0 shadow-none" style="border-radius: 12px 0 0 12px;">
-                    <i class="bi bi-lock text-muted"></i>
-                </span>
-                <input type="password" class="form-control border-start-0 @error('password') is-invalid @enderror shadow-none" 
-                    style="border-radius: 0 12px 12px 0;"
-                    id="password" name="password" required placeholder="Minimal 8 karakter">
+        <div>
+            <label for="password" class="block text-sm font-bold text-slate-900 mb-2">Kata Sandi</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="bi bi-lock text-slate-400 text-lg"></i>
+                </div>
+                <input type="password" id="password" name="password" required placeholder="Minimal 8 karakter"
+                    class="block w-full pl-12 pr-4 py-4 bg-slate-50 border @error('password') border-red-300 focus:ring-red-500 focus:border-red-500 @else border-slate-200 focus:ring-slate-900 focus:border-slate-900 @enderror rounded-xl text-sm transition-all outline-none">
             </div>
             @error('password')
-                <div class="text-danger mt-1 small" style="font-size: 0.75rem;">{{ $message }}</div>
-=======
-        <div class="mb-3">
-            <label for="password" class="form-label small fw-bold">Kata Sandi</label>
-            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
-                name="password" required autocomplete="new-password">
-            @error('password')
-                <div class="invalid-feedback small">{{ $message }}</div>
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
+                <p class="mt-2 text-xs text-red-500 font-medium">{{ $message }}</p>
             @enderror
         </div>
 
         <!-- Confirm Password -->
-<<<<<<< HEAD
-        <div class="mb-5">
-            <label for="password_confirmation" class="form-label fw-bold">Konfirmasi Sandi</label>
-            <div class="input-group">
-                <span class="input-group-text bg-white border-end-0 shadow-none" style="border-radius: 12px 0 0 12px;">
-                    <i class="bi bi-shield-lock text-muted"></i>
-                </span>
-                <input type="password" class="form-control border-start-0 shadow-none" 
-                    style="border-radius: 0 12px 12px 0;"
-                    id="password_confirmation" name="password_confirmation" required placeholder="Ulangi sandi">
+        <div>
+            <label for="password_confirmation" class="block text-sm font-bold text-slate-900 mb-2">Konfirmasi Sandi</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="bi bi-shield-lock text-slate-400 text-lg"></i>
+                </div>
+                <input type="password" id="password_confirmation" name="password_confirmation" required placeholder="Ulangi sandi"
+                    class="block w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 focus:ring-slate-900 focus:border-slate-900 rounded-xl text-sm transition-all outline-none">
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 py-3 mb-3 shadow-sm">
-            Daftar Sekarang <i class="bi bi-person-plus ms-2"></i>
+        <!-- Submit Button -->
+        <button type="submit" class="w-full flex items-center justify-center py-4 px-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition shadow-lg shadow-slate-900/20 text-lg">
+            Daftar Sekarang <i class="bi bi-person-plus ml-2"></i>
         </button>
 
-        <div class="text-center mt-4">
-            <p class="small text-muted mb-0">
-                Sudah punya akun? <a href="{{ route('login') }}" class="text-decoration-none fw-bold" style="color: var(--primary);">Masuk Saja</a>
+        <div class="mt-8 text-center">
+            <p class="text-sm font-medium text-slate-500">
+                Sudah punya akun? 
+                <a href="{{ route('login') }}" class="text-slate-900 font-bold hover:underline transition">Masuk Saja</a>
             </p>
         </div>
-=======
-        <div class="mb-4">
-            <label for="password_confirmation" class="form-label small fw-bold">Konfirmasi Kata Sandi</label>
-            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required
-                autocomplete="new-password">
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100 mb-3 mt-2">Daftar Sekarang</button>
-
-        <p class="text-center small mb-0">
-            Sudah punya akun? <a href="{{ route('login') }}" class="text-decoration-none fw-bold">Masuk</a>
-        </p>
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
     </form>
 @endsection

@@ -14,7 +14,6 @@
 
     <style>
         :root {
-<<<<<<< HEAD
             --primary: #ea580c;
             --primary-light: #ffedd5;
             --secondary: #0f172a;
@@ -25,15 +24,10 @@
             --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
             --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
             --radius-lg: 1rem;
-=======
-            --primary-color: #F75D34;
-            --secondary-color: #FF8C42;
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-<<<<<<< HEAD
             background-color: var(--bg-body);
             color: var(--text-main);
             letter-spacing: -0.01em;
@@ -72,34 +66,6 @@
             padding: 0.5rem 1.25rem !important;
             transition: all 0.2s;
             border-radius: 50px;
-=======
-            background-color: #f8fafc;
-        }
-
-        .navbar {
-            padding: 1rem 0;
-            background-color: #fff !important;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        .navbar-brand {
-            font-weight: 700;
-            color: var(--primary-color) !important;
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar-brand i {
-            margin-right: 8px;
-            font-size: 1.5rem;
-        }
-
-        .nav-link {
-            font-weight: 500;
-            color: #64748b !important;
-            padding: 0.5rem 1rem !important;
-            transition: all 0.2s;
->>>>>>> 6b37c17e3702840205ac9bf66c9189f0da3983bb
         }
 
         .nav-link:hover,

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin Dashboard') - Perpus Digital</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -129,13 +130,26 @@
                 </div>
             </a>
             
-            <form action="{{ route('logout') }}" method="POST" class="w-full">
+            <button id="btn-logout-admin" onclick="doLogoutAdmin()" class="w-full flex items-center justify-center lg:justify-start px-4 py-3 text-slate-600 font-semibold hover:text-red-600 hover:bg-red-50 rounded-xl transition-all">
+                <i class="bi bi-box-arrow-right text-xl"></i>
+                <span class="ml-3 hidden lg:block">Logout System</span>
+            </button>
+            <form id="logout-form-admin" action="{{ route('logout') }}" method="POST" class="hidden">
                 @csrf
-                <button type="submit" class="w-full flex items-center justify-center lg:justify-start px-4 py-3 text-slate-600 font-semibold hover:text-red-600 hover:bg-red-50 rounded-xl transition-all">
-                    <i class="bi bi-box-arrow-right text-xl"></i>
-                    <span class="ml-3 hidden lg:block">Logout System</span>
-                </button>
             </form>
+            <script>
+                function doLogoutAdmin() {
+                    fetch('{{ route('logout') }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json',
+                        },
+                        credentials: 'same-origin'
+                    }).then(() => { window.location.href = '/'; })
+                      .catch(() => { document.getElementById('logout-form-admin').submit(); });
+                }
+            </script>
         </div>
     </aside>
 

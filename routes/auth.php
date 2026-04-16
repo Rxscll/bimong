@@ -55,4 +55,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+
+    // GET /logout: redirect browser-typed URL safely via auto-submitting form
+    Route::get('logout', function () {
+        return redirect()->route('student.dashboard');
+    })->name('logout.get');
 });
